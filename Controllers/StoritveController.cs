@@ -21,6 +21,11 @@ namespace TPO_Seminar.Controllers
             return View();
         }
 
+        public ActionResult Test()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult Delete(int? ServiceId)
         {

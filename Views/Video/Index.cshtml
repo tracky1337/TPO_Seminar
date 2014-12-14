@@ -6,8 +6,8 @@
 </div>
 
 @section scripts{
-    <script src="~/signalr/hubs"></script>
     <script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
+    <script src="~/signalr/hubs"></script>
     <script>
         $(function () {
 
@@ -26,10 +26,6 @@
 
             var contosoChatHubProxy = connection.createHubProxy('HubController');
             alert('conn');
-            contosoChatHubProxy.on('drawPoint', function (y, x, levelThickness, lineThickness) {
-                ctx.fillRect(x, y, lineThickness, lineThickness);
-                //alert('receive');
-            });
             connection.start().done(function () {
 
 
@@ -94,11 +90,11 @@
 
                         for (var x = x1; x < x2; x++) {
                             if (steep) {
-                                ctx.fillRect(y, x, lineThickness, lineThickness);
-                                contosoChatHubProxy.invoke('draw', y, x, lineThickness, lineThickness);
+                                ctx.fillRect(y, x, 1, 1);
+                                contosoChatHubProxy.invoke('Draw', x,y, 1);
                             } else {
-                                ctx.fillRect(x, y, lineThickness, lineThickness);
-                                contosoChatHubProxy.invoke('draw', y, x, lineThickness, lineThickness);
+                                ctx.fillRect(x, y, 1, 1);
+                                contosoChatHubProxy.invoke('Draw', y,x, 1);
                             }
 
                             error += de;

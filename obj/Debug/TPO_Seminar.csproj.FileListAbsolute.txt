@@ -84,7 +84,6 @@ c:\users\grega\documents\visual studio 2012\Projects\TPO_Seminar\TPO_Seminar\obj
 c:\users\grega\documents\visual studio 2012\Projects\TPO_Seminar\TPO_Seminar\obj\Debug\TPO_Seminar.pdb
 c:\users\grega\documents\visual studio 2012\Projects\TPO_Seminar\TPO_Seminar\obj\Debug\TPO_Seminar.Migrations.InitialCreate.resources
 c:\users\grega\documents\visual studio 2012\Projects\TPO_Seminar\TPO_Seminar\obj\Debug\TPO_Seminar.csproj.GenerateResource.Cache
-c:\users\grega\documents\visual studio 2012\Projects\TPO_Seminar\TPO_Seminar\obj\Debug\TPO_Seminar.csprojResolveAssemblyReference.cache
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.AspNet.SignalR.Core.dll
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.Owin.dll

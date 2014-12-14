@@ -161,9 +161,9 @@ namespace TPO_Seminar.Controllers
         public ActionResult Manage(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
+                message == ManageMessageId.ChangePasswordSuccess ? "Geslo je bilo spremenjeno."
+                : message == ManageMessageId.SetPasswordSuccess ? "Geslo je nastavljeno."
+                : message == ManageMessageId.RemoveLoginSuccess ? "Dodatna prijava je onemogočena."
                 : "";
             ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             ViewBag.ReturnUrl = Url.Action("Manage");
@@ -201,7 +201,7 @@ namespace TPO_Seminar.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+                        ModelState.AddModelError("", "Trenutno ali novo geslo je napačno.");
                     }
                 }
             }
@@ -224,7 +224,7 @@ namespace TPO_Seminar.Controllers
                     }
                     catch (Exception)
                     {
-                        ModelState.AddModelError("", String.Format("Unable to create local account. An account with the name \"{0}\" may already exist.", User.Identity.Name));
+                        ModelState.AddModelError("", String.Format("Računa ni mogoče ustvariti. Račun z imenom \"{0}\" že najverjetneje obstaja.", User.Identity.Name));
                     }
                 }
             }

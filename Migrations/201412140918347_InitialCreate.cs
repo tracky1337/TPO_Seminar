@@ -7,47 +7,81 @@ namespace TPO_Seminar.Migrations
     {
         public override void Up()
         {
-            CreateTable(
-                "dbo.UserProfile",
-                c => new
-                    {
-                        UserId = c.Int(nullable: false, identity: true),
-                        UserName = c.String(),
-                    })
-                .PrimaryKey(t => t.UserId);
+            try
+            {
+                CreateTable(
+    "dbo.UserProfile",
+    c => new
+    {
+        UserId = c.Int(nullable: false, identity: true),
+        UserName = c.String(),
+    })
+    .PrimaryKey(t => t.UserId);
+            }
+            catch
+            {
+            }
+            try
+            {
+                CreateTable(
+    "dbo.UserDatas",
+    c => new
+    {
+        Id = c.Int(nullable: false, identity: true),
+        UserName = c.String(nullable: false),
+        Password = c.String(nullable: false, maxLength: 100),
+        Email = c.String(),
+        Name = c.String(),
+        LastName = c.String(),
+    })
+    .PrimaryKey(t => t.Id);
+            }
+            catch
+            {
+            }
+            try
+            {
 
-            CreateTable(
-                "dbo.UserDatas",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        UserName = c.String(nullable: false),
-                        Password = c.String(nullable: false, maxLength: 100),
-                        Email = c.String(),
-                        Name = c.String(),
-                        LastName = c.String(),
-                    })
-                .PrimaryKey(t => t.Id);
 
-            CreateTable(
-                "dbo.Instruktors",
-                c => new
+                CreateTable(
+                    "dbo.Instruktors",
+                    c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Podjetje = c.String(),
                         DavcnaStevilka = c.String(),
                     })
-                .PrimaryKey(t => t.Id);
+                    .PrimaryKey(t => t.Id);
+            }
+            catch
+            {
+            }
+            try
+            {
 
-            CreateTable(
-    "dbo.Students",
-    c => new
-    {
-        Id = c.Int(nullable: false, identity: true),
-        Sola = c.String(),
-        LetoRojstva = c.Int(nullable: false)
-    })
-    .PrimaryKey(t => t.Id);
+                CreateTable(
+        "dbo.Students",
+        c => new
+        {
+            Id = c.Int(nullable: false, identity: true),
+            Sola = c.String(),
+            LetoRojstva = c.Int(nullable: false)
+        })
+        .PrimaryKey(t => t.Id);
+            }
+            catch
+            {
+            }
+            try
+            {
+            }
+            catch
+            {
+            }
+
+
+
+
 
 
             CreateTable(

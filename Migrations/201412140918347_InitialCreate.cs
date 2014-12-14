@@ -2,7 +2,7 @@ namespace TPO_Seminar.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class InitialCreate : DbMigration
     {
         public override void Up()
@@ -15,7 +15,7 @@ namespace TPO_Seminar.Migrations
                         UserName = c.String(),
                     })
                 .PrimaryKey(t => t.UserId);
-            
+
             CreateTable(
                 "dbo.UserDatas",
                 c => new
@@ -28,7 +28,7 @@ namespace TPO_Seminar.Migrations
                         LastName = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.Instruktors",
                 c => new
@@ -38,14 +38,51 @@ namespace TPO_Seminar.Migrations
                         DavcnaStevilka = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
-            
+
+            CreateTable(
+    "dbo.Students",
+    c => new
+    {
+        Id = c.Int(nullable: false, identity: true),
+        Sola = c.String(),
+        LetoRojstva = c.Int(nullable: false)
+    })
+    .PrimaryKey(t => t.Id);
+
+
+            CreateTable(
+    "dbo.Subjects",
+    c => new
+    {
+        Id = c.Int(nullable: false, identity: true),
+        SubjectName = c.String()
+    })
+    .PrimaryKey(t => t.Id);
+
+            CreateTable(
+                "dbo.Services",
+                c => new
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Active = c.Boolean(),
+                    CreationDate = c.DateTime(),
+                    InstructorId = c.Int(nullable: false),
+                    SubjectId = c.Int(nullable: false)
+                })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("Subjects", t => t.SubjectId)
+                .ForeignKey("Instruktors", t => t.InstructorId);
+
+
+
+
         }
-        
+
         public override void Down()
         {
-            DropTable("dbo.Instruktors");
+            /*DropTable("dbo.Instruktors");
             DropTable("dbo.UserDatas");
-            DropTable("dbo.UserProfile");
+            DropTable("dbo.UserProfile");*/
         }
     }
 }

@@ -2,8 +2,16 @@
     ViewBag.Title = "Index ";
 }
 <div class="container">
-    <canvas id="mycanvas" width="800" height="600" style="border: 1px solid #000000;"></canvas>
+    <div class="row">
+        <div id="left" style="float:left;">
+            <canvas id="mycanvas" width="600" height="600" style="border: 1px solid #000000;"></canvas>
+        </div>
+        <div id="right">
+            Pogovorno okno - v izdelavi
+        </div>
+    </div>
 </div>
+
 
 @section scripts{
     <script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
@@ -19,14 +27,13 @@
                 lastY = 0,
                 lineThickness = 1;
 
-            canvas.width = 800;
+            canvas.width = 600;
             canvas.height = 600;
-            ctx.fillRect(0, 0, 800, 600);
+            ctx.fillRect(0, 0, 600, 600);
             ctx.fillStyle = "#ffffff";
             var connection = $.hubConnection();
 
             var contosoChatHubProxy = connection.createHubProxy('HubController');
-            alert('conn');
             contosoChatHubProxy.on('drawPoint', function (y, x, lineThickness) {
                 ctx.fillRect(x, y, lineThickness, lineThickness);
             });

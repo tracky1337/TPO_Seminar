@@ -1,8 +1,16 @@
 ﻿@{
-    ViewBag.Title = "Index ";
+    ViewBag.Title = "Host ";
 }
 <div class="container">
-    <canvas id="mycanvas" width="800" height="600" style="border: 1px solid #000000;"></canvas>
+    <div class="row">
+        <div id="left" style="float:left;">
+            <canvas id="mycanvas" width="600" height="600" style="border: 1px solid #000000;"></canvas>
+        </div>
+        <div id="right">
+            <div class="container">Pogovorno okno - v izdelavi</div>
+            
+        </div>
+    </div>
 </div>
 
 @section scripts{
@@ -19,13 +27,12 @@
                 lastY = 0,
                 lineThickness = 1;
 
-            canvas.width = 800;
+            canvas.width = 600;
             canvas.height = 600;
-            ctx.fillRect(0, 0, 800, 600);
+            ctx.fillRect(0, 0, 600, 600);
             var connection = $.hubConnection();
 
             var contosoChatHubProxy = connection.createHubProxy('HubController');
-            alert('conn');
             connection.start().done(function () {
 
 
@@ -91,10 +98,10 @@
                         for (var x = x1; x < x2; x++) {
                             if (steep) {
                                 ctx.fillRect(y, x, 1, 1);
-                                contosoChatHubProxy.invoke('Draw', x,y, 1);
+                                contosoChatHubProxy.invoke('Draw', x, y, 1);
                             } else {
                                 ctx.fillRect(x, y, 1, 1);
-                                contosoChatHubProxy.invoke('Draw', y,x, 1);
+                                contosoChatHubProxy.invoke('Draw', y, x, 1);
                             }
 
                             error += de;

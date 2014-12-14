@@ -4,18 +4,14 @@
     ViewBag.Title = "Log in";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-</hgroup>
 
 <section id="loginForm">
-<h2>Use a local account to log in.</h2>
 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Log in Form</legend>
+        <legend></legend>
         <ol>
             <li>
                 @Html.LabelFor(m => m.UserName)
@@ -32,16 +28,16 @@
                 @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
             </li>
         </ol>
-        <input type="submit" value="Log in" />
+        <input type="submit" value="Prijavi se" />
     </fieldset>
     <p>
-        @Html.ActionLink("Register", "Register") if you don't have an account.
+        @Html.ActionLink("Registriraj", "Register") se v kolikor nimaš računa.
     </p>
 }
 </section>
 
 <section class="social" id="socialLoginForm">
-    <h2>Use another service to log in.</h2>
+    <h2>Uporaba atlernativnih prijav.</h2>
     @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
 </section>
 

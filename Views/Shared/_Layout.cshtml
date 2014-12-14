@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+    <title>@ViewBag.Title</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
@@ -19,7 +19,7 @@
     <header>
         <div class="content-wrapper">
             <div class="float-left">
-                <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
+                <p class="site-title"><img src="~/Images/logo_education-45bdb10cae64a12605dca31afc86c306.png" height="100px" width="100px"/>@Html.ActionLink("TPO Inštrukcije", "Index", "Home")</p>
             </div>
             <div class="float-right">
                 @Html.Partial("_LoginPartial")
@@ -35,7 +35,7 @@
     <footer>
         <div class="content-wrapper">
             <div class="float-left">
-                <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
+                <p>&copy; @DateTime.Now.Year - TPO seminarska</p>
             </div>
         </div>
     </footer>

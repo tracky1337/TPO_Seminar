@@ -1,13 +1,7 @@
 ﻿@model TPO_Seminar.Models.UserRegistration
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Registracija";
 }
-
-
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Create a new account.</h2>
-</hgroup>
 
 <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a data-toggle="tab" href="#ucenec">Učenec</a></li>
@@ -15,7 +9,6 @@
 </ul>
 <div class="tab-content">
     <div class="tab-pane active" id="ucenec">
-        <h1>Red</h1>
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
@@ -23,7 +16,7 @@
 
             <form class="form-horizontal" role="form">
                 <div class="form-group">
-                    <label for="UserName" class="col-sm-2 control-label">Uporabniško ime</label>
+                    <label for="UserName" class="col-sm-2 control-label">Up. ime</label>
                     <div class="col-sm-10">
                         @Html.TextBoxFor(m => m.UserDatas.UserName, new { @class = "form-control", placeholder = "Uporabniško ime" })
                     </div>
@@ -49,7 +42,7 @@
                 <div class="form-group">
                     <label for="Password" class="col-sm-2 control-label">Geslo</label>
                     <div class="col-sm-10">
-                        @Html.PasswordFor(m => m.UserDatas.Password, new { @class = "form-control" })
+                        @Html.PasswordFor(m => m.UserDatas.Password, new { @class = "form-control",placeholder="Geslo" })
                     </div>
                 </div>
                 <br />
@@ -74,7 +67,6 @@
         }
     </div>
     <div class="tab-pane" id="instruktor">
-        <h1>Orange</h1>
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
@@ -82,7 +74,7 @@
 
             <form class="form-horizontal" role="form">
                 <div class="form-group">
-                    <label for="UserName" class="col-sm-2 control-label">Uporabniško ime</label>
+                    <label for="UserName" class="col-sm-2 control-label">Up. ime</label>
                     <div class="col-sm-10">
                         @Html.TextBoxFor(m => m.UserDatas.UserName, new { @class = "form-control", placeholder = "Uporabniško ime" })
                     </div>
@@ -108,7 +100,7 @@
                 <div class="form-group">
                     <label for="Password" class="col-sm-2 control-label">Geslo</label>
                     <div class="col-sm-10">
-                        @Html.PasswordFor(m => m.UserDatas.Password, new { @class = "form-control" })
+                        @Html.PasswordFor(m => m.UserDatas.Password, new { @class = "form-control",placeholder="Geslo" })
                     </div>
                 </div>
                 <br />

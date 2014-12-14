@@ -1,5 +1,57 @@
-﻿@{
-    ViewBag.Title = "Index";
-}
+﻿@using TPO_Seminar.Models
+@{
+    var services = new List<Services>();
+    var ctx = new UsersContext();
 
-<h2>Index</h2>
+
+    var db = new CustomModels();
+    services = db.Services.ToList();
+    
+    
+}
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Inštruktor (Podjetje)</th>
+                <th>Predmet</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var service in services)
+            {
+                <tr>
+                    <td>
+                        @service.Instruktors.UserProfile.UserName (@service.Instruktors.Podjetje)
+                    </td>
+                    <td>@service.Subjects.SubjectName</td>
+                    <td>
+                        <button type="button" class="btn btn-default btn-xs" name="connect" value="@service.Id">
+                            <span class="glyphicon glyphicon glyphicon-transfer" aria-hidden="true"></span>Poveži se
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                if ($(this).attr("name") == "connect") {
+                    $.ajax({
+                        url: "Video/ViewInstruction",
+                        type: "GET",
+                        success: function (data) {
+                            $("body").html(data);
+                        }
+                    }
+                    );
+                }
+            });
+        });
+    </script>
+}

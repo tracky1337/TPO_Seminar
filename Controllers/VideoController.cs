@@ -11,10 +11,16 @@ namespace TPO_Seminar.Controllers
         //
         // GET: /Video/
 
-        public ActionResult Index()
+        public ActionResult Host()
         {
             return View();
         }
+
+        public ActionResult ViewInstruction()
+        {
+            return View();
+        }
+
 
     }
 }

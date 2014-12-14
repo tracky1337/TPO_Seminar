@@ -405,19 +405,19 @@ namespace TPO_Seminar.Controllers
             switch (createStatus)
             {
                 case MembershipCreateStatus.DuplicateUserName:
-                    return "User name already exists. Please enter a different user name.";
+                    return "Uporabniško ime že obstaja.";
 
                 case MembershipCreateStatus.DuplicateEmail:
-                    return "A user name for that e-mail address already exists. Please enter a different e-mail address.";
+                    return "Uporabnik s tem emailom že obstaja.";
 
                 case MembershipCreateStatus.InvalidPassword:
-                    return "The password provided is invalid. Please enter a valid password value.";
+                    return "Geslo je napačno.";
 
                 case MembershipCreateStatus.InvalidEmail:
-                    return "The e-mail address provided is invalid. Please check the value and try again.";
+                    return "Email je napačen.";
 
-                case MembershipCreateStatus.InvalidAnswer:
-                    return "The password retrieval answer provided is invalid. Please check the value and try again.";
+                /*case MembershipCreateStatus.InvalidAnswer:
+                    return "and try again.";
 
                 case MembershipCreateStatus.InvalidQuestion:
                     return "The password retrieval question provided is invalid. Please check the value and try again.";
@@ -430,9 +430,9 @@ namespace TPO_Seminar.Controllers
 
                 case MembershipCreateStatus.UserRejected:
                     return "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
-
+                    */
                 default:
-                    return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return "Prišlo je do napake. Prosimo kontaktirajte administratorja.";
             }
         }
         #endregion

@@ -81,6 +81,11 @@ namespace TPO_Seminar.Controllers
                     WebSecurity.Login(model.UserDatas.UserName, model.UserDatas.Password);
                     using (UsersContext db = new UsersContext())
                     {
+                        if (!Roles.GetAllRoles().Any())
+                        {
+                            Roles.CreateRole("Instruktor");
+                            Roles.CreateRole("Ucenec");
+                        }
                         int currentUserId =
                             db.UserProfiles.Where(user => user.UserName == model.UserDatas.UserName)
                                 .FirstOrDefault()

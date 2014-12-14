@@ -39,7 +39,7 @@ namespace TPO_Seminar.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
+            ModelState.AddModelError("", "Uporabniško ime ali geslo je napačno.");
             return View(model);
         }
 

@@ -29,10 +29,10 @@ namespace TPO_Seminar
             AuthConfig.RegisterAuth();
 
 
-            /*UsersContext context = new UsersContext();
+            UsersContext context = new UsersContext();
             IObjectContextAdapter adapter = (IObjectContextAdapter)context;
             string script = adapter.ObjectContext.CreateDatabaseScript();
-            context.Database.ExecuteSqlCommand(script);*/
+            context.Database.ExecuteSqlCommand(script);
         }
     }
 }

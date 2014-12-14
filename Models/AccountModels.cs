@@ -48,14 +48,13 @@ namespace TPO_Seminar.Models
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Novo geslo")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(Name = "Potrdi novo geslo")]
+        [Compare("NewPassword", ErrorMessage = "Novo in staro geslo se ne ujemata.")]
         public string ConfirmPassword { get; set; }
     }
 

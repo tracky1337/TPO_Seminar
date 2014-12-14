@@ -1,0 +1,89 @@
+﻿@using TPO_Seminar.Models
+@model TPO_Seminar.Models.ServiceCreation
+@{
+    ViewBag.Title = "Index";
+    var services = new List<Services>();
+    int instructorId;
+    var ctx = new UsersContext();
+
+    instructorId = ctx.Instruktors.Where(ins => ins.UserProfileId == WebSecurity.CurrentUserId).FirstOrDefault().Id;
+
+    var db = new CustomModels();
+
+    services = db.Services.Where(ser => ser.InstructorId == instructorId).ToList();
+   
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Id inštrukcije</th>
+                    <th>Predmet</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var service in services)
+                {
+                    <tr>
+                        <td>
+                            @service.Id
+                        </td>
+                        <td>@service.Subjects.SubjectName</td>
+                        <td>
+                            <button type="button" class="btn btn-default btn-xs" name="deleteRow" value="@service.Id">
+                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>Izbriši
+                                
+                            </button>
+                            <button type="button" class="btn btn-default btn-xs" name="connect" value="@service.Id">
+                                <span class="glyphicon glyphicon glyphicon-transfer" aria-hidden="true"></span>Poveži se
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    using (Html.BeginForm("Index", "Storitve"))
+    {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">
+                <h5>Izberi predmet</h5>
+            </label>
+            <div class="col-sm-8">
+                @Html.DropDownListFor(m => m.SubjectId, TPO_Seminar.Models.Helper.GetSubjects(), new { @class = "form-control" })
+
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-default">Ponudi storitev</button>
+            </div>
+        </div>
+    </form>
+    }
+}
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                if ($(this).attr("name") == "deleteRow") {
+                    var val = $(this).attr("value");
+                    var formData = { ServiceId: val };
+                    $.ajax({
+                        url: "Storitve/Delete",
+                        type: "POST",
+                        data: formData,
+                        success: function (data) {
+                            $("body").html(data);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

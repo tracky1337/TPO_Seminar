@@ -1,0 +1,39 @@
+﻿<section id="login">
+    @if (Request.IsAuthenticated)
+    {
+        <text>
+        Hello, @Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })!
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+        {
+            @Html.AntiForgeryToken()
+<a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+        }
+        </text>
+    }
+    else
+    {
+        <ul>
+            <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        </ul>
+    }
+
+</section>
+<nav>
+    <ul id="menu">
+        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+        <li>@Html.ActionLink("About", "About", "Home")</li>
+        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+        @if (Request.IsAuthenticated)
+        {
+            if (User.IsInRole("Instruktor"))
+            {
+            <li>@Html.ActionLink("Storitve", "Index", "Storitve")</li>
+            }
+            else if (User.IsInRole("Ucenec"))
+            {
+            <li>@Html.ActionLink("Najemi inštukcijo", "Index", "Najemi")</li>
+            }
+        }
+    </ul>
+</nav>

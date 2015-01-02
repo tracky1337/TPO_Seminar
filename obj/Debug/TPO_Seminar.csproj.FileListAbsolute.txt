@@ -11,7 +11,6 @@ c:\users\grega\documents\visual studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin
 c:\users\grega\documents\visual studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.Data.Edm.dll
 c:\users\grega\documents\visual studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.Data.OData.dll
 c:\users\grega\documents\visual studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.Web.Infrastructure.dll
-c:\users\grega\documents\visual studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
 c:\users\grega\documents\visual studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.Web.WebPages.OAuth.dll
 c:\users\grega\documents\visual studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Newtonsoft.Json.dll
 c:\users\grega\documents\visual studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\System.Net.Http.Formatting.dll
@@ -95,3 +94,18 @@ C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.Owin.xml
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.Owin.Host.SystemWeb.xml
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.Owin.Security.xml
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\obj\Debug\TPO_Seminar.csprojResolveAssemblyReference.cache
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\TPO_Seminar.dll.config
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\EntityFramework.SqlServer.dll
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\System.Net.Http.Extensions.dll
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\System.Net.Http.Primitives.dll
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Org.Mentalis.Security.Cryptography.dll
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Mono.Math.dll
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Antlr3.Runtime.pdb
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\EntityFramework.SqlServer.xml
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\System.Net.Http.Extensions.xml
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\System.Net.Http.Primitives.xml
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\System.Web.Optimization.xml
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Org.Mentalis.Security.Cryptography.xml
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Mono.Math.xml
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\obj\Debug\TPO_Seminar.csproj.App.config

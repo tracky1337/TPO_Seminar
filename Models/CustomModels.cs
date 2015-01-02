@@ -20,6 +20,7 @@ namespace TPO_Seminar.Models
         }
         public DbSet<Subjects> Subjects { get; set; }
         public DbSet<Services> Services { get; set; }
+        public DbSet<Blobs> Blobs { get; set; }
 
     }
 
@@ -35,6 +36,14 @@ namespace TPO_Seminar.Models
         [Key]
         public int Id { get; set; }
         public string SubjectName { get; set; }
+    }
+
+    [Table("Blobs")]
+    public class Blobs
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Blob { get; set; }
     }
 
     [Table("Services")]

@@ -3,9 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TPO_Seminar.Models;
 
 namespace TPO_Seminar.Controllers
 {
+    public class VoicePassage
+    {
+        public string Title { get; set; }
+        public string FileName { get; set; }
+        public HttpPostedFileBase Recording { get; set; }
+    }
     public class VideoController : Controller
     {
         //
@@ -20,6 +27,19 @@ namespace TPO_Seminar.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public string Upload(string blob)
+        {
+            using (var entity = new CustomModels())
+            {
+                var blobElement = new Blobs() {Blob = blob};
+                entity.Blobs.Add(blobElement);
+                entity.SaveChanges();
+                return blobElement.Id.ToString();
+            }
+        }
+
 
 
     }

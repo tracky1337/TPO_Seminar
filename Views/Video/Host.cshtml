@@ -1,24 +1,73 @@
 ﻿@{
     ViewBag.Title = "Host ";
 }
+<!DOCTYPE html>
 <div class="container">
     <div class="row">
-        <div id="left" style="float:left;">
+        <button class="btn btn-primary btn-sm" id="risi">
+            <span class="glyphicon glyphicon-pencil"></span>
+            <span>Svinčnik</span>
+        </button>
+        <button class="btn btn-default btn-sm" id="brisi">
+            <span class="glyphicon glyphicon-trash"></span>
+            <span>Radirka</span>
+        </button>
+    </div>
+    <div class="row">
+        <div id="left" style="float: left;">
             <canvas id="mycanvas" width="600" height="600" style="border: 1px solid #000000;"></canvas>
         </div>
-        <div id="right">
-            <div class="container">Pogovorno okno - v izdelavi</div>
-            
+        <div id="right" style="float: left; margin-left: 30px; width: 400px;">
+            @Html.Partial("ChatPartial")
+            <section class="recorder-container">
+                <button id="send" style="visibility: hidden;"></button>
+                <div class="recorder">
+                    <div class="upload" style="display: inline-block">
+                        <div id="flashcontent">
+                            <p>Your browser must have JavaScript enabled and the Adobe Flash Player installed.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
+
     </div>
 </div>
 
 @section scripts{
+    <script src="~/Scripts/swfobject.js"></script>
+    <script src="~/Scripts/recorder.js"></script>
+    <script src="~/Scripts/basic.js"></script>
+
+
+    <link href="~/Content/VideoStyle.css" rel="stylesheet" />
     <script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
     <script src="~/signalr/hubs"></script>
     <script>
-        $(function () {
+        var fill = "#ffffff";
+        var size = 3;
 
+        $("#risi").click(function () {
+            var risi = $("#risi");
+            var brisi = $("#brisi");
+            risi.attr('class', 'btn btn-primary btn-sm');
+            brisi.attr('class', 'btn btn-default btn-sm');
+            fill = "#ffffff";
+            size = 3;
+            $('html,body').css('cursor', 'default');
+        });
+
+        $("#brisi").click(function () {
+            var risi = $("#risi");
+            var brisi = $("#brisi");
+            risi.attr('class', 'btn btn-default btn-sm');
+            brisi.attr('class', 'btn btn-primary btn-sm');
+            fill = "#000000";
+            size = 10;
+            $('html,body').css('cursor', 'cell');
+        });
+
+        $(function () {
 
             var canvas = document.getElementById("mycanvas"),
                 ctx = canvas.getContext("2d"),
@@ -33,12 +82,39 @@
             var connection = $.hubConnection();
 
             var contosoChatHubProxy = connection.createHubProxy('HubController');
+
+            contosoChatHubProxy.on('sendMessage', function (message) {
+                $(".chat").append(message);
+            });
+
+
+            contosoChatHubProxy.on('sendVoiceMessage', function (message) {
+                var snd = new Audio("data:audio/wav;base64," + message);
+                snd.play();
+            });
+
+            $('#send').click(function () {
+                var base = FWRecorder.getBase64('audio').split(',')[1];
+                var myKeyVals = { blob: base }
+                $.ajax({
+                    type: 'POST',
+                    url: "Video/Upload",
+                    data: myKeyVals,
+                    dataType: "text",
+                    success: function (resultData) { contosoChatHubProxy.invoke('SendVoiceMessage', resultData); }
+                });
+            });
+
+            $("#btn-chat").click(function () {
+                var message = $("#btn-input").val();
+                if (message.length == 0) return;
+                contosoChatHubProxy.invoke('SendMessage', message);
+                $("#btn-input").val('');
+            });
+
             connection.start().done(function () {
-
-
                 canvas.onmousedown = function (e) {
                     painting = true;
-                    ctx.fillStyle = "#ffffff";
                     lastX = e.pageX - this.offsetLeft;
                     lastY = e.pageY - this.offsetTop;
                 };
@@ -97,11 +173,13 @@
 
                         for (var x = x1; x < x2; x++) {
                             if (steep) {
-                                ctx.fillRect(y, x, 1, 1);
-                                contosoChatHubProxy.invoke('Draw', x, y, 1);
+                                ctx.fillStyle = fill;
+                                ctx.fillRect(y, x, size, size);
+                                contosoChatHubProxy.invoke('Draw', x, y, fill,size);
                             } else {
-                                ctx.fillRect(x, y, 1, 1);
-                                contosoChatHubProxy.invoke('Draw', y, x, 1);
+                                ctx.fillStyle = fill;
+                                ctx.fillRect(x, y, size, size);
+                                contosoChatHubProxy.invoke('Draw', y, x, fill, size);
                             }
 
                             error += de;

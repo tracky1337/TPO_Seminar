@@ -21,17 +21,19 @@
 </section>
 <nav>
     <ul id="menu">
-        <li>@Html.ActionLink("Domov", "Index", "Home")</li>
-        <li>@Html.ActionLink("Informacije", "About", "Home")</li>
+        <li><span class="glyphicon glyphicon-home" aria-hidden="true"></span>@Html.ActionLink("Domov", "Index", "Home")</li>
+        <li><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>@Html.ActionLink("Informacije", "About", "Home")</li>
         @if (Request.IsAuthenticated)
         {
             if (User.IsInRole("Instruktor"))
             {
-            <li>@Html.ActionLink("Storitve", "Index", "Storitve")</li>
+                <!--<li><span class="glyphicon glyphicon-book" aria-hidden="true"></span>@Html.ActionLink("Storitve", "Index", "Storitve")</li>-->
+                <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>@Html.ActionLink("Urnik", "Index", "Urnik")</li>
+                <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span>@Html.ActionLink("Predmetnik", "Predmeti", "Storitve")</li>
             }
             else if (User.IsInRole("Ucenec"))
             {
-            <li>@Html.ActionLink("Najemi inštukcijo", "Index", "Najemi")</li>
+                <li><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>@Html.ActionLink("Najemi inštrukcijo", "Index", "Najemi")</li>
             }
         }
     </ul>

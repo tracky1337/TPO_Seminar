@@ -1,0 +1,105 @@
+﻿@using System.Globalization
+
+@using TPO_Seminar.Models
+@model TPO_Seminar.Models.ServiceCreation
+@{
+    var subjectRoles = new List<SubjectRoles>();
+    var model = new UserContext();
+
+    var instructor = model.Instruktors.FirstOrDefault(ins => ins.UserProfileId == WebSecurity.CurrentUserId);
+    if (instructor != null)
+    {
+        var instructorId = instructor.Id;
+        subjectRoles = model.SubjectRoles.Where(el => el.InstructorId == instructorId).ToList();
+    }
+
+    var dropDownValues = TPO_Seminar.Models.Helper.GetSubjects().Where(el => !subjectRoles.Any(x => x.SubjectId.ToString() == el.Value));
+}
+<style>
+    .form-control {
+        margin: 0;
+    }
+</style>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Ime predmeta</th>
+                <th>Cena na uro</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in subjectRoles)
+            {
+                <tr>
+                    <td>
+                        @item.Subjects.SubjectName
+                    </td>
+                    <td>@item.PricePerHour.ToString(CultureInfo.CurrentCulture)€</td>
+                    <td>
+                        <button type="button" class="btn btn-default btn-xs" name="deleteRow" value="@item.Id">
+                            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>Izbriši
+                                
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (dropDownValues.Any())
+{
+    using (Html.BeginForm("DodajStoritev", "Storitve"))
+    {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">
+                <h5>Izberi predmet</h5>
+            </label>
+            <div class="col-sm-8">
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(m => m.SubjectId, dropDownValues, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="PricePerHour" aria-label="Znesek (EUR)" value="15">
+                        <span class="input-group-addon">€</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-default">Ponudi storitev</button>
+            </div>
+        </div>
+    </form>
+    }
+}
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                if ($(this).attr("name") == "deleteRow") {
+
+                    var val = $(this).attr("value");
+                    var formData = { Id: val };
+                    $.ajax({
+                        url: "DeleteSubjectRole",
+                        type: "POST",
+                        data: formData,
+                        success: function (data) {
+                            $("body").html(data);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

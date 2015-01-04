@@ -10,7 +10,7 @@ namespace TPO_Seminar.Models
     {
         public static IEnumerable<SelectListItem> GetSubjects()
         {
-            using (CustomModels db = new CustomModels())
+            using (var db = new UserContext())
             {
                 if (!db.Subjects.Any())
                 {

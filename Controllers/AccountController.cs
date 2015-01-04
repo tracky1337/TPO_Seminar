@@ -79,7 +79,7 @@ namespace TPO_Seminar.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserDatas.UserName, model.UserDatas.Password);
                     WebSecurity.Login(model.UserDatas.UserName, model.UserDatas.Password);
-                    using (UsersContext db = new UsersContext())
+                    using (var dbModel = new UserContext())
                     {
                         if (!Roles.GetAllRoles().Any())
                         {
@@ -87,31 +87,31 @@ namespace TPO_Seminar.Controllers
                             Roles.CreateRole("Ucenec");
                         }
                         int currentUserId =
-                            db.UserProfiles.Where(user => user.UserName == model.UserDatas.UserName)
+                            dbModel.UserProfiles.Where(user => user.UserName == model.UserDatas.UserName)
                                 .FirstOrDefault()
                                 .UserId;
 
                         model.UserDatas.UserProfileId = currentUserId;
                         var UserData = model.UserDatas;
-                        db.UserDatas.Add(UserData);
+                        dbModel.UserDatas.Add(UserData);
 
                         if (btn == "instruktor")
                         {
                             model.Instruktors.UserProfileId = currentUserId;
                             var Instruktor = model.Instruktors;
-                            db.Instruktors.Add(Instruktor);
+                            dbModel.Instruktors.Add(Instruktor);
                             Roles.AddUserToRole(UserData.UserName, "Instruktor");
                         }else if (btn == "ucenec")
                         {
                             model.Students.UserProfileId = currentUserId;
                             var Student = model.Students;
-                            db.Students.Add(Student);
+                            dbModel.Students.Add(Student);
                             Roles.AddUserToRole(UserData.UserName, "Ucenec");
                         }
 
 
 
-                        db.SaveChanges();
+                        dbModel.SaveChanges();
                     }
 
                     return RedirectToAction("Index", "Home");
@@ -296,7 +296,7 @@ namespace TPO_Seminar.Controllers
             if (ModelState.IsValid)
             {
                 // Insert a new user into the database
-                using (UsersContext db = new UsersContext())
+                using (var db = new UserContext())
                 {
                     UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
                     // Check if user already exists

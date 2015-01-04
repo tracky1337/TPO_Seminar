@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
-using System.Globalization;
-using System.Web.Security;
 
 namespace TPO_Seminar.Models
 {
-    public class UsersContext : DbContext
+    public class UserContext : DbContext
     {
-        public UsersContext()
+        public UserContext()
             : base("DefaultConnection")
         {
         }
@@ -19,7 +17,15 @@ namespace TPO_Seminar.Models
         public DbSet<UserDatas> UserDatas { get; set; }
         public DbSet<Instruktors> Instruktors { get; set; }
         public DbSet<Students> Students { get; set; }
+        public DbSet<Subjects> Subjects { get; set; }
+        public DbSet<Services> Services { get; set; }
+        public DbSet<Blobs> Blobs { get; set; }
+        public DbSet<Schedules> Schedules { get; set; }
+        public DbSet<SubjectRoles> SubjectRoles { get; set; }
+
+
     }
+
 
     [Table("UserProfile")]
     public class UserProfile
@@ -138,4 +144,113 @@ namespace TPO_Seminar.Models
         public string ProviderDisplayName { get; set; }
         public string ProviderUserId { get; set; }
     }
+
+    public class ServiceCreation
+    {
+        public int SubjectId { get; set; }
+        public Services Services { get; set; }
+        public decimal PricePerHour { get; set; }
+    }
+
+    [Table("Schedules")]
+    public class Schedules
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [ForeignKey("Instruktors")]
+        public int InstruktorId { get; set; }
+        public virtual Instruktors Instruktors { get; set; }
+
+        public DateTime ScheduleDate { get; set; }
+        public bool Available { get; set; }
+    }
+
+    [Table("Subjects")]
+    public class Subjects
+    {
+        [Key]
+        public int Id { get; set; }
+        public string SubjectName { get; set; }
+
+    }
+
+    [Table("Blobs")]
+    public class Blobs
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Blob { get; set; }
+    }
+
+    [Table("Services")]
+    public class Services
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [ForeignKey("Instruktors")]
+        public int InstructorId { get; set; }
+        public virtual Instruktors Instruktors { get; set; }
+
+        [ForeignKey("Subjects")]
+        public int SubjectId { get; set; }
+        public virtual Subjects Subjects { get; set; }
+
+        public bool Active { get; set; }
+        public DateTime CreationDate { get; set; }
+    }
+
+    [Table("SubjectRoles")]
+    public class SubjectRoles
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [ForeignKey("Instruktors")]
+        public int InstructorId { get; set; }
+        public virtual Instruktors Instruktors { get; set; }
+
+        [ForeignKey("Subjects")]
+        public int SubjectId { get; set; }
+        public virtual Subjects Subjects { get; set; }
+
+        public decimal PricePerHour { get; set; }
+    }
+
+    #region JsonModels
+
+    public class ResultDay
+    {
+        public string hour { get; set; }
+    }
+    public class ResultMonth
+    {
+        public string month { get; set; }
+    }
+
+    public class ResultSubjectProvider
+    {
+        public string Instructor { get; set; }
+        public int InstructorId { get; set; }
+        public decimal PricePerHour { get; set; }
+    }
+    public class JsonEventDay
+    {
+        public int success { get; set; }
+        public List<ResultDay> result { get; set; }
+    }
+    public class JsonEventMonth
+    {
+        public int success { get; set; }
+        public List<ResultMonth> result { get; set; }
+    }
+
+    public class JsonEventSubjectProviders
+    {
+        public int success { get; set; }
+        public List<ResultSubjectProvider> result { get; set; }
+    }
+
+    #endregion
 }

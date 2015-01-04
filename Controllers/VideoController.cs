@@ -31,7 +31,7 @@ namespace TPO_Seminar.Controllers
         [HttpPost]
         public string Upload(string blob)
         {
-            using (var entity = new CustomModels())
+            using (var entity = new UserContext())
             {
                 var blobElement = new Blobs() {Blob = blob};
                 entity.Blobs.Add(blobElement);

@@ -18,6 +18,18 @@ namespace TPO_Seminar
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute("InstructorDetails", "Najemi/Instruktor/{instructorId}/{subjectId}",
+                new
+                {
+                    controller = "Najemi",
+                    action = "Instruktor",
+                    instructorId = UrlParameter.Optional,
+                    subjectId = UrlParameter.Optional
+                });
+
+
+
         }
     }
 }

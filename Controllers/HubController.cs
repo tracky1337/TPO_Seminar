@@ -17,11 +17,17 @@ namespace TPO_Seminar.SignalR
         public void SendVoiceMessage(string message)
         {
             string x = "";
-            using (var entity = new CustomModels())
+            using (var entity = new UserContext())
             {
+                //retrieve blob
                 int id = Convert.ToInt32(message);
                 var blob = entity.Blobs.FirstOrDefault(b => b.Id == id);
+
                 Clients.Others.sendVoiceMessage(blob.Blob);
+
+                //delete from db
+                entity.Blobs.Remove(blob);
+                entity.SaveChanges();
             }
         }
 

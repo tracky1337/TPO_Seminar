@@ -15,13 +15,11 @@ namespace TPO_Seminar.Controllers
     {
         //
         // GET: /Storitve/
-
-        public ActionResult Index()
+        public ActionResult Predmeti()
         {
             return View();
         }
-
-        public ActionResult Test()
+        public ActionResult Index()
         {
             return View();
         }
@@ -31,7 +29,7 @@ namespace TPO_Seminar.Controllers
         {
             if (ServiceId.HasValue)
             {
-                using (CustomModels db = new CustomModels())
+                using (var db = new UserContext())
                 {
                     var service = db.Services.Find(ServiceId);
                     db.Services.Remove(service);
@@ -43,28 +41,71 @@ namespace TPO_Seminar.Controllers
         }
 
         [HttpPost]
+        public ActionResult DeleteSubjectRole(int? Id)
+        {
+            if (Id.HasValue)
+            {
+                using (var db = new UserContext())
+                {
+                    var subjectRole = db.SubjectRoles.Find(Id.Value);
+                    if (subjectRole != null)
+                    {
+                        db.SubjectRoles.Remove(subjectRole);
+                        db.SaveChanges();
+                    }
+                }
+            }
+            return View("Predmeti");
+
+        }
+
+        [HttpPost]
+        public ActionResult DodajStoritev(int? SubjectId, string PricePerHour)
+        {
+            if (!SubjectId.HasValue || PricePerHour.Length == 0) return View("Predmeti");
+            using (var model = new UserContext())
+            {
+                var price = Convert.ToDecimal(PricePerHour.Replace('.', ','));
+                var instructor = model.Instruktors.FirstOrDefault(inst => inst.UserProfileId == WebSecurity.CurrentUserId);
+                if (instructor != null)
+                {
+                    var instructorId = instructor.Id;
+                    var subjectRole = new SubjectRoles()
+                    {
+                        InstructorId = instructorId,
+                        SubjectId = SubjectId.Value,
+                        PricePerHour = price
+                    };
+                    model.SubjectRoles.Add(subjectRole);
+                    model.SaveChanges();
+
+                }
+            }
+            return View("Predmeti");
+        }
+
+        [HttpPost]
         public ActionResult Index(int SubjectId)
         {
             if (ModelState.IsValid)
             {
                 var service = new Services();
-                    
-                using (UsersContext usr = new UsersContext())
+
+                using (var model = new UserContext())
                 {
                     service = new Services()
                     {
                         Active = true,
                         CreationDate = DateTime.Now,
-                        InstructorId = usr.Instruktors.Where(inst => inst.UserProfileId == WebSecurity.CurrentUserId).FirstOrDefault().Id,
+                        InstructorId = model.Instruktors.Where(inst => inst.UserProfileId == WebSecurity.CurrentUserId).FirstOrDefault().Id,
                         SubjectId = SubjectId
                     };
+                    model.Services.Add(service);
+                    model.SaveChanges();
                 }
 
-                using (CustomModels db = new CustomModels())
-                {
-                    db.Services.Add(service);
-                    db.SaveChanges();
-                }
+
+
             }
             return View();
         }

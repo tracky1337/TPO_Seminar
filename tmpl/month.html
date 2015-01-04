@@ -1,0 +1,68 @@
+<div class="cal-row-fluid cal-row-head">
+    <% _.each(days_name, function(name){ %>
+	
+    <div class="cal-cell1"><%= name %></div>
+    <% }) %>
+</div>
+<div class="cal-month-box">
+    <% for(i = 0; i < 6; i++) { %>
+		<% if(cal.stop_cycling == true) break; %>
+   
+    <div class="cal-row-fluid cal-before-eventlist">
+        <div class="cal-cell1 cal-cell" data-cal-row="-day1"><%= cal._day(i, day++) %></div>
+        <div class="cal-cell1 cal-cell" data-cal-row="-day2"><%= cal._day(i, day++) %></div>
+        <div class="cal-cell1 cal-cell" data-cal-row="-day3"><%= cal._day(i, day++) %></div>
+        <div class="cal-cell1 cal-cell" data-cal-row="-day4"><%= cal._day(i, day++) %></div>
+        <div class="cal-cell1 cal-cell" data-cal-row="-day5"><%= cal._day(i, day++) %></div>
+        <div class="cal-cell1 cal-cell" data-cal-row="-day6"><%= cal._day(i, day++) %></div>
+        <div class="cal-cell1 cal-cell" data-cal-row="-day7"><%= cal._day(i, day++) %></div>
+    </div>
+    <% } %>
+</div>
+<script>
+    function setDefaultBackground() {
+        var x = document.getElementsByClassName('pull-right');
+        var i = 0;
+        for (i = 0; i < x.length; i++) {
+            x[i].parentNode.style.backgroundColor = "#EBEBEB";
+        }
+    }
+
+    $(document).ready(function () {
+        setDefaultBackground();
+        var url = $(location).attr('href');
+        var parameters = url.split('/');
+        var subjectId = parameters.pop();
+        var instructorId = parameters.pop();
+        var date = '<%= start.getFullYear() %>-<%= start.getMonthFormatted() %>-<%= start.getDateFormatted() %>';
+
+        $.ajax({
+            type: 'GET',
+            url: "../../../Urnik/GetMonthlyAvailability?date=" + date + '&instructorId=' + instructorId,
+            dataType: "text",
+            success: function (resultData) {
+                var obj = JSON.parse(resultData);
+                $.each(obj.result, function (fb, i) {
+                    var month = i.month;
+                    $("[data-cal-date='" + month + "']").parent().css('background-color', '#e8fde7');
+                });
+            }
+        });
+        /*var date = '<%= start.getFullYear() %>-<%= start.getMonthFormatted() %>-<%= start.getDateFormatted() %>';
+        var url = $(location).attr('href');
+        var instructorId = url.split('/').pop();
+
+        $.ajax({
+            type: 'GET',
+            url: "../../Urnik/GetMonthlyAvailability?date=" + date + '&instructorId=' + instructorId,
+            dataType: "text",
+            success: function (resultData) {
+                var obj = JSON.parse(resultData);
+                $.each(obj.result, function (fb, i) {
+                    var month = i.month;
+                    $("[data-cal-date='" + month + "']").parent().css('background-color', '#e8fde7');
+                });
+            }
+        });*/
+    });
+</script>

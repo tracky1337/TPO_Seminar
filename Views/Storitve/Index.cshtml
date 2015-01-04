@@ -3,14 +3,16 @@
 @{
     ViewBag.Title = "Index";
     var services = new List<Services>();
-    int instructorId;
-    var ctx = new UsersContext();
+    var model = new UserContext();
+    var instructor = model.Instruktors.FirstOrDefault(ins => ins.UserProfileId == WebSecurity.CurrentUserId);
+    if (instructor != null)
+    {
+        var instructorId = instructor.Id;
+        services = model.Services.Where(ser => ser.InstructorId == instructorId).ToList();
+    }
 
-    instructorId = ctx.Instruktors.Where(ins => ins.UserProfileId == WebSecurity.CurrentUserId).FirstOrDefault().Id;
 
-    var db = new CustomModels();
 
-    services = db.Services.Where(ser => ser.InstructorId == instructorId).ToList();
    
 
     <div class="table-responsive">

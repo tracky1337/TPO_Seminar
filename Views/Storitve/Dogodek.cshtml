@@ -1,0 +1,145 @@
+﻿@model int
+@using System.Globalization
+@using TPO_Seminar.Models
+
+@{
+    var context = new UserContext();
+    var instructorId = Model;
+    var unconfirmedList = context.Orders.Where(el => el.Approved == false && el.InstructorId == instructorId).Select(el => new { ime = context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().Name + " " + context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().LastName, predmet = el.Subjects.SubjectName, datumizvajanja = el.OrderDate, id = el.Id }).ToList().Select(el => new { ime = el.ime, predmet = el.predmet, datumizvajanja = el.datumizvajanja.ToString("dd.MM.yyyy"), id = el.id,ura = el.datumizvajanja.Hour });
+    var confirmedList = context.Orders.Where(el => el.Approved && el.InstructorId == instructorId).Select(el => new { ime = context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().Name + " " + context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().LastName, predmet = el.Subjects.SubjectName, datumizvajanja = el.OrderDate, id = el.Id }).ToList().Select(el => new { ime = el.ime, predmet = el.predmet, datumizvajanja = el.datumizvajanja.ToString("dd.MM.yyyy"), id = el.id, ura = el.datumizvajanja.Hour });
+    
+}
+
+<style>
+    table {
+        table-layout: fixed;
+        word-wrap: break-word;
+    }
+
+    button {
+        width: 80px;
+    }
+</style>
+<ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a data-toggle="tab" href="#nepotrjeni">Nepotrjeni dogodki</a></li>
+    <li><a data-toggle="tab" href="#potrjeni">Potrjeni dogodki</a></li>
+</ul>
+
+<div class="tab-content">
+
+    <div class="tab-pane active" id="nepotrjeni">
+        @if (unconfirmedList.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Ime študenta</th>
+                            <th>Predmet</th>
+                            <th>Datum izvajanja</th>
+                            <th>Ura</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in unconfirmedList)
+                        {
+                            <tr>
+                                <td>
+                                    @item.ime
+                                </td>
+                                <td>@item.predmet</td>
+                                <td>@item.datumizvajanja</td>
+                                <td>@item.ura</td>
+                                <td>
+                                    <button type="button" class="btn btn-default btn-xs" name="acceptRow" value="@item.id">
+                                        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Sprejmi
+                                    </button>
+                                    <button type="button" class="btn btn-default btn-xs" name="deleteRow" value="@item.id">
+                                        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> Zavrni
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-center">Ni nepotrjenih dogodkov</p>
+        }
+    </div>
+
+
+    <div class="tab-pane" id="potrjeni">
+        @if (confirmedList.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Ime študenta</th>
+                            <th>Predmet</th>
+                            <th>Datum izvajanja</th>
+                            <th>Ura</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in confirmedList)
+                        {
+                            <tr>
+                                <td>
+                                    @item.ime
+                                </td>
+                                <td>@item.predmet</td>
+                                <td>@item.datumizvajanja</td>
+                                <td>@item.ura</td>
+                                <td>
+                                    <button type="button" class="btn btn-default btn-xs" name="connectRow" value="@item.id" disabled>
+                                        <span class="glyphicon glyphicon-random" aria-hidden="true"></span> Poveži
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-center">Ni potrjenih dogodkov</p>
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                var val = $(this).attr("value");
+                var formData = { Id: val };
+                if ($(this).attr("name") == "deleteRow") {
+                    $.ajax({
+                        url: "DeleteOrder",
+                        type: "POST",
+                        data: formData,
+                        success: function (data) {
+                            $("body").html(data);
+                        }
+                    });
+                } else if ($(this).attr("name") == "acceptRow") {
+                    $.ajax({
+                        url: "AcceptOrder",
+                        type: "POST",
+                        data: formData,
+                        success: function (data) {
+                            $("body").html(data);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

@@ -1,4 +1,5 @@
-﻿<section id="login">
+﻿@using Microsoft.Ajax.Utilities
+<section id="login">
     @if (Request.IsAuthenticated)
     {
         <text>
@@ -27,14 +28,40 @@
         {
             if (User.IsInRole("Instruktor"))
             {
-                <!--<li><span class="glyphicon glyphicon-book" aria-hidden="true"></span>@Html.ActionLink("Storitve", "Index", "Storitve")</li>-->
-                <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>@Html.ActionLink("Urnik", "Index", "Urnik")</li>
-                <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span>@Html.ActionLink("Predmetnik", "Predmeti", "Storitve")</li>
+            <!--<li><span class="glyphicon glyphicon-book" aria-hidden="true"></span>@Html.ActionLink("Storitve", "Index", "Storitve")</li>-->
+            <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>@Html.ActionLink("Urnik", "Index", "Urnik")</li>
+            <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span>@Html.ActionLink("Predmetnik", "Predmeti", "Storitve")</li>
+            <li><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>@Html.ActionLink("Dogodki", "Dogodek", "Storitve")</li>
             }
             else if (User.IsInRole("Ucenec"))
             {
-                <li><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>@Html.ActionLink("Najemi inštrukcijo", "Index", "Najemi")</li>
+            <li><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>@Html.ActionLink("Najemi inštrukcijo", "Index", "Najemi")</li>
+            <li><span class="badge" style="display: none"></span><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>@Html.ActionLink("Košarica", "Kosarica", "Najemi")</li>
+            <li><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>@Html.ActionLink("Dogodki", "Dogodek", "Najemi")</li>
             }
         }
     </ul>
 </nav>
+
+
+@if (User.IsInRole("Ucenec"))
+{
+    <script>
+        $.ajax({
+            type: 'GET',
+            url: "../../../Najemi/CartStatus",
+            dataType: "text",
+            success: function (data) {
+                if (data > 0) {
+                    $('.badge').text(data);
+                    $('.badge').show();
+                    $('.glyphicon.glyphicon-shopping-cart').css('display', 'none');
+                } else {
+                    $('.badge').text('');
+                    $('.badge').css('display', 'none');
+                    $('.glyphicon.glyphicon-shopping-cart').show();
+                }
+            }
+        });
+    </script>
+}

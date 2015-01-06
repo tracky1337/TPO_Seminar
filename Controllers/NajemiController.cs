@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using TPO_Seminar.Models;
+using WebMatrix.WebData;
 
 namespace TPO_Seminar.Controllers
 {
@@ -25,7 +26,7 @@ namespace TPO_Seminar.Controllers
                 using (var model = new UserContext())
                 {
                     var providers =
-                        model.SubjectRoles.Where(el => el.SubjectId==subjectId).Select(
+                        model.SubjectRoles.Where(el => el.SubjectId == subjectId).Select(
                             el =>
                                 new ResultSubjectProvider()
                                 {
@@ -49,12 +50,120 @@ namespace TPO_Seminar.Controllers
 
         public ActionResult Instruktor(int? instructorId, int? subjectId)
         {
-            if (instructorId.HasValue)
-            {
-                
-
-            }
             return View();
         }
+
+        public ActionResult DeleteOrder(int? Id)
+        {
+            using (var model = new UserContext())
+            {
+                var order = model.Orders.Find(Id);
+                if (order == null) return RedirectToAction("Dogodek", "Najemi");
+
+                model.Orders.Remove(order);
+                model.SaveChanges();
+
+                return RedirectToAction("Dogodek", "Najemi");
+            }
+        }
+
+        public ActionResult Dogodek()
+        {
+            using (var model = new UserContext())
+            {
+                var student = model.Students.FirstOrDefault(el => el.UserProfileId == WebSecurity.CurrentUserId);
+                if (student == null) return View(-1);
+                return View(student.Id);
+            }
+        }
+
+        public ActionResult Kosarica()
+        {
+            var model = new UserContext();
+
+            var student = model.Students.FirstOrDefault(el => el.UserProfileId == WebSecurity.CurrentUserId);
+            if (student == null) return View(new List<Orders>().AsEnumerable());
+            var items =
+                model.Orders.Where(el => el.StudentId == student.Id && el.Approved == false)
+                    .OrderByDescending(el => el.OrderDate)
+                    .ThenBy(el => el.Subjects.SubjectName).AsEnumerable();
+            return View(items);
+        }
+
+        public ActionResult DeleteItemCart(int? id)
+        {
+            using (var model = new UserContext())
+            {
+                var order = model.Orders.Find(id);
+                if (order == null) return RedirectToAction("Kosarica", "Najemi");
+                model.Orders.Remove(order);
+                model.SaveChanges();
+            }
+            return RedirectToAction("Kosarica", "Najemi");
+        }
+
+        public string GetInActiveItems()
+        {
+            using (var model = new UserContext())
+            {
+                var student = model.Students.FirstOrDefault(el => el.UserProfileId == WebSecurity.CurrentUserId);
+                if (student == null) return "0";
+                return model.Orders.Count(el => el.Approved == false && el.StudentId == student.Id).ToString();
+            }
+        }
+
+        public ActionResult CartStatus()
+        {
+            return Content(GetInActiveItems());
+        }
+
+        [HttpPost]
+        public ActionResult AddItemToCard(int? instructorId, int? subjectId, string orderDate, int? available)
+        {
+            if (instructorId.HasValue && subjectId.HasValue)
+            {
+
+                using (var model = new UserContext())
+                {
+                    var date = DateTime.Parse(orderDate);
+                    var studentId = model.Students.FirstOrDefault(el => el.UserProfileId == WebSecurity.CurrentUserId);
+                    if (studentId == null) return Content(GetInActiveItems());
+                    var order = new Orders();
+                    if (available == 1)
+                    {
+                        order = new Orders()
+                        {
+                            InstructorId = instructorId.Value,
+                            StudentId = studentId.Id,
+                            SubjectId = subjectId.Value,
+                            OrderDate = date
+                        };
+                        model.Orders.Add(order);
+                        model.SaveChanges();
+                    }
+                    else
+                    {
+                        order =
+                            model.Orders.FirstOrDefault(
+                                el =>
+                                    el.InstructorId == instructorId.Value && el.StudentId == studentId.Id &&
+                                    el.SubjectId == subjectId.Value && el.OrderDate == date);
+                        if (order != null)
+                        {
+                            //delete order
+                            model.Orders.Remove(order);
+                            model.SaveChanges();
+                        }
+                    }
+
+                }
+
+            }
+
+            return Content(GetInActiveItems());
+        }
+
+
+
     }
 }

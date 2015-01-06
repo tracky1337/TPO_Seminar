@@ -3,6 +3,7 @@
         margin: 0;
         margin-top: 5px;
     }
+
 </style>
 <div id="cal-day-box">
     <div class="row-fluid clearfix cal-row-head">
@@ -74,11 +75,6 @@
 
         <% _.each(by_hour, function(event){ %>
 		
-        <div class="pull-left day-event day-highlight dh-<%= event['class'] %>" style="margin-top: <%= (event.top * 30) %>px; height: <%= (event.lines * 30) %>px">
-            <span class="cal-hours"><%= event.start_hour %> - <%= event.end_hour %></span>
-            <a href="<%= event.url ? event.url : 'javascript:void(0)' %>" data-event-id="<%= event.id %>"
-                data-event-class="<%= event['class'] %>" class="event-item"><%= event.title %></a>
-        </div>
         <% }); %>
 
     </div>
@@ -123,12 +119,34 @@
     });
 
     $('.toggle-group').click(function () {
-        var available = $(this).prop('checked').toString().indexOf('true') != -1 ? 'dodano' : 'odstranjeno';
+        //alert($('.badge').text());
+        //alert($('.glyphicon.glyphicon-shopping-cart').text());
+        var availableDisplay = $(this).prop('checked').toString().indexOf('true') != -1 ? 'dodano' : 'odstranjeno';
+        var available = $(this).prop('checked').toString().indexOf('true') != -1 ? 1 : 0;
         var hour = parseInt($(this).attr('id').split(':')[0]);
-
+        
         $(this).next().css('display', 'none');
         if (!$(this).next().is(':visible')) {
-            $(this).next().html('<small>' + available + '</small>');
+                var myKeyVals = { instructorId: instructorId, subjectId: subjectId, orderDate: date + ' ' + hour + ':00:00',available:available }
+            $.ajax({
+                type: 'POST',
+                url: "../../AddItemToCard",
+                data: myKeyVals,
+                dataType: "text",
+                success: function(data) {
+                    if (data > 0) {
+                        $('.badge').text(data);
+                        $('.badge').show();
+                        $('.glyphicon.glyphicon-shopping-cart').css('display', 'none');
+                    } else {
+                        $('.badge').text('');
+                        $('.badge').css('display', 'none');
+                        $('.glyphicon.glyphicon-shopping-cart').show();
+                    }
+                }
+            });
+
+            $(this).next().html('<small>' + availableDisplay + '</small>');
             $(this).next().fadeIn('slow', function () {
                 $(this).delay(1200).fadeOut('slow');
             });

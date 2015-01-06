@@ -273,6 +273,11 @@
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Content\VideoStyle.css" />
+    <Content Include="Scripts\components\bootstrap2\css\bootstrap-responsive.css" />
+    <Content Include="Scripts\components\bootstrap2\css\bootstrap.css" />
+    <Content Include="Scripts\components\bootstrap2\img\glyphicons-halflings-white.png" />
+    <Content Include="Scripts\components\bootstrap2\img\glyphicons-halflings.png" />
+    <Content Include="Scripts\components\bootstrap2\js\bootstrap.min.js" />
     <Content Include="Scripts\js\calendar-view.js" />
     <Content Include="Scripts\js\app-view.js" />
     <Content Include="tmpl\day.html" />
@@ -295,11 +300,6 @@
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\calendar.js" />
     <Content Include="Scripts\calendar.min.js" />
-    <Content Include="Scripts\components\bootstrap2\css\bootstrap-responsive.css" />
-    <Content Include="Scripts\components\bootstrap2\css\bootstrap.css" />
-    <Content Include="Scripts\components\bootstrap2\img\glyphicons-halflings-white.png" />
-    <Content Include="Scripts\components\bootstrap2\img\glyphicons-halflings.png" />
-    <Content Include="Scripts\components\bootstrap2\js\bootstrap.min.js" />
     <Content Include="Scripts\components\bootstrap3\css\bootstrap-theme.css" />
     <Content Include="Scripts\components\bootstrap3\css\bootstrap-theme.min.css" />
     <Content Include="Scripts\components\bootstrap3\css\bootstrap.css" />
@@ -398,6 +398,9 @@
     <Content Include="Views\Storitve\Predmeti.cshtml" />
     <Content Include="Views\Najemi\Index.cshtml" />
     <Content Include="Views\Najemi\Instruktor.cshtml" />
+    <Content Include="Views\Najemi\Kosarica.cshtml" />
+    <Content Include="Views\Najemi\Dogodek.cshtml" />
+    <Content Include="Views\Storitve\Dogodek.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

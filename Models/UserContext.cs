@@ -22,6 +22,7 @@ namespace TPO_Seminar.Models
         public DbSet<Blobs> Blobs { get; set; }
         public DbSet<Schedules> Schedules { get; set; }
         public DbSet<SubjectRoles> SubjectRoles { get; set; }
+        public DbSet<Orders> Orders { get; set; }
 
 
     }
@@ -216,6 +217,28 @@ namespace TPO_Seminar.Models
         public virtual Subjects Subjects { get; set; }
 
         public decimal PricePerHour { get; set; }
+    }
+
+    [Table("Orders")]
+    public class Orders
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [ForeignKey("Instruktors")]
+        public int InstructorId { get; set; }
+        public virtual Instruktors Instruktors { get; set; }
+
+        [ForeignKey("Subjects")]
+        public int SubjectId { get; set; }
+        public virtual Subjects Subjects { get; set; }
+
+        [ForeignKey("Students")]
+        public int StudentId { get; set; }
+        public virtual Students Students { get; set; }
+
+        public DateTime OrderDate { get; set; }
+        public bool Approved { get; set; }
     }
 
     #region JsonModels

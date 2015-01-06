@@ -110,5 +110,43 @@ namespace TPO_Seminar.Controllers
             return View();
         }
 
+        public ActionResult Dogodek()
+        {
+            using (var model = new UserContext())
+            {
+                var instructor = model.Instruktors.FirstOrDefault(el => el.UserProfileId == WebSecurity.CurrentUserId);
+                if (instructor == null) return View(-1);
+                return View(instructor.Id);
+            }
+        }
+
+        public ActionResult AcceptOrder(int? Id)
+        {
+            using (var model = new UserContext())
+            {
+                var order = model.Orders.Find(Id);
+                if (order == null) return RedirectToAction("Dogodek", "Storitve");
+
+                order.Approved = true;
+                model.SaveChanges();
+
+                return RedirectToAction("Dogodek", "Storitve");
+            }
+        }
+
+        public ActionResult DeleteOrder(int? Id)
+        {
+            using (var model = new UserContext())
+            {
+                var order = model.Orders.Find(Id);
+                if (order == null) return RedirectToAction("Dogodek", "Storitve");
+
+                model.Orders.Remove(order);
+                model.SaveChanges();
+
+                return RedirectToAction("Dogodek", "Storitve");
+            }
+        }
+
     }
 }

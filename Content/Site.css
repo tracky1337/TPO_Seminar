@@ -180,11 +180,12 @@ footer {
 /* menu
 ----------------------------------------------------------*/
 ul#menu {
-    font-size: 1.3em;
-    font-weight: 600;
+    font-size: 1.1em;
+    font-weight: 500;
     margin: 0 0 5px;
     padding: 0;
     text-align: right;
+    padding-top: 10px;
 }
 
     ul#menu li {

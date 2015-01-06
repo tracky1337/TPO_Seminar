@@ -52,6 +52,7 @@ namespace TPO_Seminar.Controllers
                             el.ScheduleDate.Month == dt.Month && el.Available)
                         .Select(
                         el => new ResultMonth() { month = el.ScheduleDate.Year + "-" + (el.ScheduleDate.Month.ToString().Length == 1 ? "0" + el.ScheduleDate.Month.ToString() : el.ScheduleDate.Month.ToString()) + "-" + (el.ScheduleDate.Day.ToString().Length == 1 ? "0" + el.ScheduleDate.Day.ToString() : el.ScheduleDate.Day.ToString()) }).Distinct().ToList();
+
                 var e = new JsonEventMonth() { success = 1, result = list };
                 return Content(JsonConvert.SerializeObject(e), "application/json");
             }
@@ -80,6 +81,22 @@ namespace TPO_Seminar.Controllers
                             el.ScheduleDate.Month == dt.Month && el.ScheduleDate.Day == dt.Day && el.Available)
                         .Select(el => new ResultDay() { hour = el.ScheduleDate.Hour.ToString() })
                         .ToList();
+
+                //remove instructors that are busy
+                var busyInstructorHours = model.Orders.Where(el => el.Approved && el.InstructorId == instructorId)
+                    .Select(el => new ResultDay() {hour = el.OrderDate.Hour.ToString()})
+                    .Distinct()
+                    .ToList();
+
+                foreach (var item in busyInstructorHours)
+                {
+                    var listItem = list.FirstOrDefault(el => el.hour == item.hour);
+                    if (listItem == null) continue;
+
+                    list.Remove(listItem);
+                }
+
+
                 JsonEventDay e = new JsonEventDay() { success = 1, result = list };
                 return Content(JsonConvert.SerializeObject(e), "application/json");
 

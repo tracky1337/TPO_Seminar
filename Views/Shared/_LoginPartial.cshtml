@@ -23,7 +23,7 @@
 <nav>
     <ul id="menu">
         <li><span class="glyphicon glyphicon-home" aria-hidden="true"></span>@Html.ActionLink("Domov", "Index", "Home")</li>
-        <li><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>@Html.ActionLink("Informacije", "About", "Home")</li>
+        <!--<li><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>@Html.ActionLink("Informacije", "About", "Home")</li-->
         @if (Request.IsAuthenticated)
         {
             if (User.IsInRole("Instruktor"))
@@ -35,8 +35,9 @@
             }
             else if (User.IsInRole("Ucenec"))
             {
-            <li><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>@Html.ActionLink("Najemi inštrukcijo", "Index", "Najemi")</li>
+            <li><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>@Html.ActionLink("Inštrukcije", "Index", "Najemi")</li>
             <li><span class="badge" style="display: none"></span><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>@Html.ActionLink("Košarica", "Kosarica", "Najemi")</li>
+            <li><span class="glyphicon glyphicon-user" aria-hidden="true"></span>@Html.ActionLink("Profesorji", "Profesorji", "Najemi")</li>
             <li><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>@Html.ActionLink("Dogodki", "Dogodek", "Najemi")</li>
             }
         }
@@ -63,5 +64,39 @@
                 }
             }
         });
+
     </script>
 }
+
+<script>
+    $(document).ready(function () {
+
+        function isValidEmail(emailAddress) {
+            var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
+            return pattern.test(emailAddress);
+        };
+
+
+        $('#send').click(function () {
+            var sender = $('#recipient-name').val();
+            var message = $('#message-text').val();
+            if (sender.length == 0 || message.length == 0 || !isValidEmail(sender)) {
+                return;
+            }
+            var keys = { sender: sender, message: message };
+            $.ajax({
+                type: 'POST',
+                data: keys,
+                url: "../Home/SendMail",
+                dataType: "text"
+            });
+
+            //reset text
+            $('#recipient-name').val('');
+            $('#message-text').val('');
+
+            $('#close').click();
+        });
+    });
+
+</script>

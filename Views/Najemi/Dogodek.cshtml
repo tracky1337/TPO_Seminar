@@ -5,8 +5,9 @@
 @{
     var context = new UserContext();
     var studentId = Model;
-    var unconfirmedList = context.Orders.Where(el => el.Approved == false && el.StudentId == studentId).Select(el => new { ime = context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().Name + " " + context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().LastName, predmet = el.Subjects.SubjectName, datumizvajanja = el.OrderDate, id = el.Id }).ToList().Select(el => new { ime = el.ime, predmet = el.predmet, datumizvajanja = el.datumizvajanja.ToString("dd.MM.yyyy"), id = el.id, ura = el.datumizvajanja.Hour });
-    var confirmedList = context.Orders.Where(el => el.Approved && el.StudentId == studentId).Select(el => new { ime = context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().Name + " " + context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().LastName, predmet = el.Subjects.SubjectName, datumizvajanja = el.OrderDate, id = el.Id }).ToList().Select(el => new { ime = el.ime, predmet = el.predmet, datumizvajanja = el.datumizvajanja.ToString("dd.MM.yyyy"), id = el.id, ura = el.datumizvajanja.Hour });
+    var currDate = DateTime.Now.AddMinutes(-10);
+    var previousEvents = context.Orders.Where(el => el.Approved && el.StudentId == studentId && el.OrderDate <= currDate).Select(el => new { ime = context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().Name + " " + context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().LastName, predmet = el.Subjects.SubjectName, datumizvajanja = el.OrderDate, id = el.Id }).ToList().Select(el => new { ime = el.ime, predmet = el.predmet, datumizvajanja = el.datumizvajanja.ToString("dd.MM.yyyy"), id = el.id, ura = el.datumizvajanja.Hour });
+    var upcomingEvents = context.Orders.Where(el => el.Approved && el.StudentId == studentId && el.OrderDate > currDate).Select(el => new { ime = context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().Name + " " + context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().LastName, predmet = el.Subjects.SubjectName, datumizvajanja = el.OrderDate, id = el.Id }).ToList().Select(el => new { ime = el.ime, predmet = el.predmet, datumizvajanja = el.datumizvajanja.ToString("dd.MM.yyyy"), id = el.id, ura = el.datumizvajanja.Hour });
     
 }
 
@@ -19,54 +20,143 @@
     button {
         width: 80px;
     }
+
+    .dropdown-menu li a {
+        text-decoration: none;
+    }
 </style>
 
-@if (confirmedList.Any())
-{
-    <div class="table-responsive">
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Ime študenta</th>
-                    <th>Predmet</th>
-                    <th>Datum izvajanja</th>
-                    <th>Ura</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in confirmedList)
-                {
-                    <tr>
-                        <td>
-                            @item.ime
-                        </td>
-                        <td>@item.predmet</td>
-                        <td>@item.datumizvajanja</td>
-                        <td>@item.ura</td>
-                        <td>
-                            <button type="button" class="btn btn-default btn-xs" name="connectRow" value="@item.id" disabled>
-                                <span class="glyphicon glyphicon-random" aria-hidden="true"></span>Poveži
-                            </button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-}
-else
-{
-<div class="panel panel-default">
-    <div class="panel-heading">
-        Dogodki
-    </div>
-    <div class="panel-body">
-        Ni prihajajočih dogodkov.
+<ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a data-toggle="tab" href="#prihajajoci">Prihajajoči dogodki</a></li>
+    <li><a data-toggle="tab" href="#pretekli">Pretekli dogodki</a></li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="prihajajoci">
+        @if (upcomingEvents.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Ime študenta</th>
+                            <th>Predmet</th>
+                            <th>Datum izvajanja</th>
+                            <th>Ura</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in upcomingEvents)
+                        {
+                            <tr>
+                                <td>
+                                    @item.ime
+                                </td>
+                                <td>@item.predmet</td>
+                                <td>@item.datumizvajanja</td>
+                                <td>@item.ura</td>
+                                <td>
+                                    <button type="button" class="btn btn-default btn-xs" name="connectRow" value="@item.id" disabled>
+                                        <span class="glyphicon glyphicon-random" aria-hidden="true"></span> Poveži
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Dogodki
+                </div>
+                <div class="panel-body">
+                    Ni prihajajočih dogodkov.
+                </div>
+
+            </div>
+        }
     </div>
 
+    <div class="tab-pane" id="pretekli">
+        @if (previousEvents.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Ime študenta</th>
+                            <th>Predmet</th>
+                            <th>Datum izvajanja</th>
+                            <th>Ura</th>
+                            <th>Ocena</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in previousEvents)
+                        {
+                            <tr>
+                                <td>
+                                    @item.ime
+                                </td>
+                                <td>@item.predmet</td>
+                                <td>@item.datumizvajanja</td>
+                                <td>@item.ura</td>
+                                <td>
+                                    @{
+                            var rating = context.Ratings.FirstOrDefault(el => el.OrderId == item.id);
+                            if (rating == null)
+                            {
+                                //allow user to vote
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">
+                                                Izberi oceno <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu" id="@item.id">
+                                                <li><a href="#">1</a></li>
+                                                <li><a href="#">2</a></li>
+                                                <li><a href="#">3</a></li>
+                                                <li><a href="#">4</a></li>
+                                                <li><a href="#">5</a></li>
+                                            </ul>
+                                        </div>
+                            }
+                            else
+                            {
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default btn-xs disabled" aria-expanded="false">
+                                                @rating.Rating
+                                            </button>
+                                        </div>
+                            }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Dogodki
+                </div>
+                <div class="panel-body">
+                    Ni preteklih dogodkov.
+                </div>
+
+            </div>
+        }
+    </div>
 </div>
-}
+
+
+
 
 @section scripts{
     <script>
@@ -84,6 +174,23 @@ else
                         }
                     });
                 }
+            });
+
+
+            $(".dropdown-menu li a").click(function () {
+                var orderId = $(this).parent().parent().attr('id');
+                var rating = $(this).text();
+                var button = $(this).parent().parent().prev();
+                var buttonClass = button.attr('class');
+                button.html(rating);
+                button.attr('class', buttonClass + ' disabled');
+
+                var formData = { orderId: orderId, rating: rating };
+                $.ajax({
+                    url: "Rate",
+                    type: "POST",
+                    data: formData
+                });
             });
         });
     </script>

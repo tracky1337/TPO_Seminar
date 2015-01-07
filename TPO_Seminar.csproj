@@ -239,6 +239,8 @@
     <Content Include="Content\bootstrap-toggle.min.css" />
     <Content Include="Content\calendar.css" />
     <Content Include="Content\calendar.min.css" />
+    <Content Include="Content\star-rating.css" />
+    <Content Include="Content\star-rating.min.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -280,6 +282,8 @@
     <Content Include="Scripts\components\bootstrap2\js\bootstrap.min.js" />
     <Content Include="Scripts\js\calendar-view.js" />
     <Content Include="Scripts\js\app-view.js" />
+    <Content Include="Scripts\star-rating.js" />
+    <Content Include="Scripts\star-rating.min.js" />
     <Content Include="tmpl\day.html" />
     <Content Include="tmpl\events-list.html" />
     <Content Include="tmpl\modal.html" />
@@ -401,6 +405,7 @@
     <Content Include="Views\Najemi\Kosarica.cshtml" />
     <Content Include="Views\Najemi\Dogodek.cshtml" />
     <Content Include="Views\Storitve\Dogodek.cshtml" />
+    <Content Include="Views\Najemi\Profesorji.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

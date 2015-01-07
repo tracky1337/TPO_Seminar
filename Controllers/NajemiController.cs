@@ -163,6 +163,33 @@ namespace TPO_Seminar.Controllers
             return Content(GetInActiveItems());
         }
 
+        [HttpPost]
+        public ActionResult Rate(int? orderId, int? rating)
+        {
+            if (orderId.HasValue && rating.HasValue)
+            {
+                using (var model = new UserContext())
+                {
+                    var order = model.Orders.Find(orderId);
+                    if (order == null) return Content("");
+                    var ratingEntity = new Ratings()
+                    {
+                        InstructorId = order.InstructorId,
+                        StudentId = order.StudentId,
+                        OrderId = order.Id,
+                        Rating = rating.Value
+                    };
+                    model.Ratings.Add(ratingEntity);
+                    model.SaveChanges();
+                }
+            }
+            return Content("");
+        }
+
+        public ActionResult Profesorji()
+        {
+            return View();
+        }
 
 
     }

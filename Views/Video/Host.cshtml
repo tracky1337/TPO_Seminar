@@ -1,5 +1,6 @@
 ﻿@{
-    ViewBag.Title = "Host ";
+    ViewBag.Title = "Inštrukcija";
+    var id = (int)Model;
 }
 <!DOCTYPE html>
 <div class="container">
@@ -17,7 +18,7 @@
         <div id="left" style="float: left;">
             <canvas id="mycanvas" width="600" height="600" style="border: 1px solid #000000;"></canvas>
         </div>
-        <div id="right" style="float: left; margin-left: 30px; width: 400px;">
+        <div id="right" style="float: left; margin-left: 30px; width: 300px;">
             @Html.Partial("ChatPartial")
             <section class="recorder-container">
                 <button id="send" style="visibility: hidden;"></button>
@@ -47,27 +48,27 @@
         var fill = "#ffffff";
         var size = 3;
 
-        $("#risi").click(function () {
+        $("#risi").click(function() {
             var risi = $("#risi");
             var brisi = $("#brisi");
             risi.attr('class', 'btn btn-primary btn-sm');
             brisi.attr('class', 'btn btn-default btn-sm');
             fill = "#ffffff";
             size = 3;
-            $('html,body').css('cursor', 'default');
+            $('html, body').css('cursor', 'default');
         });
 
-        $("#brisi").click(function () {
+        $("#brisi").click(function() {
             var risi = $("#risi");
             var brisi = $("#brisi");
             risi.attr('class', 'btn btn-default btn-sm');
             brisi.attr('class', 'btn btn-primary btn-sm');
             fill = "#000000";
             size = 10;
-            $('html,body').css('cursor', 'cell');
+            $('html, body').css('cursor', 'cell');
         });
 
-        $(function () {
+        $(function() {
 
             var canvas = document.getElementById("mycanvas"),
                 ctx = canvas.getContext("2d"),
@@ -80,50 +81,51 @@
             canvas.height = 600;
             ctx.fillRect(0, 0, 600, 600);
             var connection = $.hubConnection();
+            connection.qs={ token: @id };
 
             var contosoChatHubProxy = connection.createHubProxy('HubController');
 
-            contosoChatHubProxy.on('sendMessage', function (message) {
+            contosoChatHubProxy.on('sendMessage', function(message) {
                 $(".chat").append(message);
             });
 
 
-            contosoChatHubProxy.on('sendVoiceMessage', function (message) {
+            contosoChatHubProxy.on('sendVoiceMessage', function(message) {
                 var snd = new Audio("data:audio/wav;base64," + message);
                 snd.play();
             });
 
-            $('#send').click(function () {
+            $('#send').click(function() {
                 var base = FWRecorder.getBase64('audio').split(',')[1];
                 var myKeyVals = { blob: base }
                 $.ajax({
                     type: 'POST',
-                    url: "Video/Upload",
+                    url: "../Video/Upload",
                     data: myKeyVals,
                     dataType: "text",
-                    success: function (resultData) { contosoChatHubProxy.invoke('SendVoiceMessage', resultData); }
+                    success: function(resultData) { contosoChatHubProxy.invoke('SendVoiceMessage', resultData, @id); }
                 });
             });
 
-            $("#btn-chat").click(function () {
+            $("#btn-chat").click(function() {
                 var message = $("#btn-input").val();
                 if (message.length == 0) return;
-                contosoChatHubProxy.invoke('SendMessage', message);
+                contosoChatHubProxy.invoke('SendMessage', message, @id);
                 $("#btn-input").val('');
             });
 
-            connection.start().done(function () {
-                canvas.onmousedown = function (e) {
+            connection.start().done(function() {
+                canvas.onmousedown = function(e) {
                     painting = true;
                     lastX = e.pageX - this.offsetLeft;
                     lastY = e.pageY - this.offsetTop;
                 };
 
-                canvas.onmouseup = function (e) {
+                canvas.onmouseup = function(e) {
                     painting = false;
                 }
 
-                canvas.onmousemove = function (e) {
+                canvas.onmousemove = function(e) {
                     if (painting) {
                         mouseX = e.pageX - this.offsetLeft;
                         mouseY = e.pageY - this.offsetTop;
@@ -175,11 +177,11 @@
                             if (steep) {
                                 ctx.fillStyle = fill;
                                 ctx.fillRect(y, x, size, size);
-                                contosoChatHubProxy.invoke('Draw', x, y, fill,size);
+                                contosoChatHubProxy.invoke('Draw', x, y, fill, size, @id);
                             } else {
                                 ctx.fillStyle = fill;
                                 ctx.fillRect(x, y, size, size);
-                                contosoChatHubProxy.invoke('Draw', y, x, fill, size);
+                                contosoChatHubProxy.invoke('Draw', y, x, fill, size, @id);
                             }
 
                             error += de;
@@ -188,7 +190,6 @@
                                 error -= 1.0;
                             }
                         }
-
 
 
                         lastX = mouseX;

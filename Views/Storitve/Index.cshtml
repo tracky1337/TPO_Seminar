@@ -1,7 +1,7 @@
 ﻿@using TPO_Seminar.Models
 @model TPO_Seminar.Models.ServiceCreation
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Storitve";
     var services = new List<Services>();
     var model = new UserContext();
     var instructor = model.Instruktors.FirstOrDefault(ins => ins.UserProfileId == WebSecurity.CurrentUserId);
@@ -34,11 +34,11 @@
                         <td>@service.Subjects.SubjectName</td>
                         <td>
                             <button type="button" class="btn btn-default btn-xs" name="deleteRow" value="@service.Id">
-                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>Izbriši
+                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>&nbsp;Izbriši
                                 
                             </button>
                             <button type="button" class="btn btn-default btn-xs" name="connect" value="@service.Id">
-                                <span class="glyphicon glyphicon glyphicon-transfer" aria-hidden="true"></span>Poveži se
+                                <span class="glyphicon glyphicon glyphicon-transfer" aria-hidden="true"></span>&nbsp;Poveži se
                             </button>
                         </td>
                     </tr>

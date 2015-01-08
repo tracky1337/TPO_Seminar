@@ -186,11 +186,6 @@ namespace TPO_Seminar.Controllers
             return Content("");
         }
 
-        public ActionResult Profesorji()
-        {
-            return View();
-        }
-
 
     }
 }

@@ -1,0 +1,57 @@
+﻿@using System.Web.UI.WebControls
+@using TPO_Seminar.Models
+@{
+    var model = new UserContext();
+    var profesorji = model.Database.SqlQuery<Profesor>("select * from vw_PregledProfesorjev").ToList();
+    ViewBag.Title = "Profesorji";
+    }
+<style>
+    p {
+        padding: 0;
+        margin: 0;
+    }
+</style>
+@if (profesorji.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th><p class="text-center">Podjetje</p></th>
+                    <th><p class="text-center">Davčna številka</p></th>
+                    <th><p class="text-center">Ime</p></th>
+                    <th><p class="text-center">Priimek</p></th>
+                    <th><p class="text-center">Email</p></th>
+                    <th><p class="text-center">Št. inštrukcij</p></th>
+                    <th><p class="text-center">Povprečna ocena</p></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in profesorji)
+                {
+                    <tr>
+                        <td><p class="text-center">@item.Podjetje</p></td>
+                        <td><p class="text-center">@item.DavcnaStevilka</p></td>
+                        <td><p class="text-center">@item.Name</p></td>
+                        <td><p class="text-center">@item.LastName</p></td>
+                        <td><p class="text-center">@item.Email</p></td>
+                        <td><p class="text-center">@item.CountOfOrders</p></td>
+                        <td><p class="text-center">@item.AvgOcena</p></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Profesorji
+        </div>
+        <div class="panel-body">
+            Ni registriranih profesorjev.
+        </div>
+
+    </div>
+}

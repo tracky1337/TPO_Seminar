@@ -3,10 +3,12 @@
 @using TPO_Seminar.Models
 
 @{
+    ViewBag.Title = "Dogodek";
     var context = new UserContext();
     var instructorId = Model;
-    var unconfirmedList = context.Orders.Where(el => el.Approved == false && el.InstructorId == instructorId).Select(el => new { ime = context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().Name + " " + context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().LastName, predmet = el.Subjects.SubjectName, datumizvajanja = el.OrderDate, id = el.Id }).ToList().Select(el => new { ime = el.ime, predmet = el.predmet, datumizvajanja = el.datumizvajanja.ToString("dd.MM.yyyy"), id = el.id,ura = el.datumizvajanja.Hour });
-    var confirmedList = context.Orders.Where(el => el.Approved && el.InstructorId == instructorId).Select(el => new { ime = context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().Name + " " + context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().LastName, predmet = el.Subjects.SubjectName, datumizvajanja = el.OrderDate, id = el.Id }).ToList().Select(el => new { ime = el.ime, predmet = el.predmet, datumizvajanja = el.datumizvajanja.ToString("dd.MM.yyyy"), id = el.id, ura = el.datumizvajanja.Hour });
+    var currDate = DateTime.Now.AddMinutes(-80);
+    var unconfirmedList = context.Orders.Where(el => el.Approved == false && el.InstructorId == instructorId).Select(el => new { ime = context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().Name + " " + context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().LastName, predmet = el.Subjects.SubjectName, datumizvajanja = el.OrderDate, id = el.Id }).ToList().Select(el => new { ime = el.ime, predmet = el.predmet, datumizvajanja = el.datumizvajanja.ToString("dd.MM.yyyy"), id = el.id, ura = el.datumizvajanja.Hour });
+    var confirmedList = context.Orders.Where(el => el.Approved && el.InstructorId == instructorId && el.OrderDate > currDate).Select(el => new { ime = context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().Name + " " + context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().LastName, predmet = el.Subjects.SubjectName, datumizvajanja = el.OrderDate, id = el.Id }).ToList().Select(el => new { ime = el.ime, predmet = el.predmet, datumizvajanja = el.datumizvajanja.ToString("dd.MM.yyyy"), id = el.id, ura = el.datumizvajanja.Hour });
     
 }
 
@@ -18,6 +20,11 @@
 
     button {
         width: 80px;
+    }
+
+    p {
+        margin: 0;
+        padding: 0;
     }
 </style>
 <ul class="nav nav-tabs" data-tabs="tabs">
@@ -34,10 +41,18 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th>Ime študenta</th>
-                            <th>Predmet</th>
-                            <th>Datum izvajanja</th>
-                            <th>Ura</th>
+                            <th>
+                                <p class="text-center">Ime študenta</p>
+                            </th>
+                            <th>
+                                <p class="text-center">Predmet</p>
+                            </th>
+                            <th>
+                                <p class="text-center">Datum izvajanja</p>
+                            </th>
+                            <th>
+                                <p class="text-center">Ura</p>
+                            </th>
                             <th></th>
                         </tr>
                     </thead>
@@ -46,17 +61,23 @@
                         {
                             <tr>
                                 <td>
-                                    @item.ime
+                                    <p class="text-center">@item.ime</p>
                                 </td>
-                                <td>@item.predmet</td>
-                                <td>@item.datumizvajanja</td>
-                                <td>@item.ura</td>
                                 <td>
+                                    <p class="text-center">@item.predmet</p>
+                                </td>
+                                <td>
+                                    <p class="text-center">@item.datumizvajanja</p>
+                                </td>
+                                <td>
+                                    <p class="text-center">@item.ura</p>
+                                </td>
+                                <td align="center">
                                     <button type="button" class="btn btn-default btn-xs" name="acceptRow" value="@item.id">
-                                        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Sprejmi
+                                        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>&nbsp;Sprejmi
                                     </button>
                                     <button type="button" class="btn btn-default btn-xs" name="deleteRow" value="@item.id">
-                                        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> Zavrni
+                                        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>&nbsp;Zavrni
                                     </button>
                                 </td>
                             </tr>
@@ -79,10 +100,18 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th>Ime študenta</th>
-                            <th>Predmet</th>
-                            <th>Datum izvajanja</th>
-                            <th>Ura</th>
+                            <th>
+                                <p class="text-center">Ime študenta</p>
+                            </th>
+                            <th>
+                                <p class="text-center">Predmet</p>
+                            </th>
+                            <th>
+                                <p class="text-center">Datum izvajanja</p>
+                            </th>
+                            <th>
+                                <p class="text-center">Ura</p>
+                            </th>
                             <th></th>
                         </tr>
                     </thead>
@@ -91,14 +120,20 @@
                         {
                             <tr>
                                 <td>
-                                    @item.ime
+                                    <p class="text-center">@item.ime</p>
                                 </td>
-                                <td>@item.predmet</td>
-                                <td>@item.datumizvajanja</td>
-                                <td>@item.ura</td>
                                 <td>
+                                    <p class="text-center">@item.predmet</p>
+                                </td>
+                                <td>
+                                    <p class="text-center">@item.datumizvajanja</p>
+                                </td>
+                                <td>
+                                    <p class="text-center">@item.ura</p>
+                                </td>
+                                <td align="center">
                                     <button type="button" class="btn btn-default btn-xs" name="connectRow" value="@item.id" disabled>
-                                        <span class="glyphicon glyphicon-random" aria-hidden="true"></span> Poveži
+                                        <span class="glyphicon glyphicon-random" aria-hidden="true"></span>&nbsp;Poveži
                                     </button>
                                 </td>
                             </tr>
@@ -138,6 +173,16 @@
                             $("body").html(data);
                         }
                     });
+                } else if ($(this).attr("name") == "connectRow") {
+                    $.ajax({
+                        url: "../Video/Host/",
+                        data: formData,
+                        type: "POST",
+                        success: function (data) {
+                            $("body").html(data);
+                        }
+                    }
+);
                 }
             });
         });

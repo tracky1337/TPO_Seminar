@@ -22,23 +22,21 @@
 </section>
 <nav>
     <ul id="menu">
-        <li><span class="glyphicon glyphicon-home" aria-hidden="true"></span>@Html.ActionLink("Domov", "Index", "Home")</li>
-        <!--<li><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>@Html.ActionLink("Informacije", "About", "Home")</li-->
+        <li><span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;@Html.ActionLink("Domov", "Index", "Home")</li>
+                    <li><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;@Html.ActionLink("Profesorji", "Profesorji", "Home")</li>
         @if (Request.IsAuthenticated)
         {
             if (User.IsInRole("Instruktor"))
             {
-            <!--<li><span class="glyphicon glyphicon-book" aria-hidden="true"></span>@Html.ActionLink("Storitve", "Index", "Storitve")</li>-->
-            <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>@Html.ActionLink("Urnik", "Index", "Urnik")</li>
-            <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span>@Html.ActionLink("Predmetnik", "Predmeti", "Storitve")</li>
-            <li><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>@Html.ActionLink("Dogodki", "Dogodek", "Storitve")</li>
+            <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;@Html.ActionLink("Urnik", "Index", "Urnik")</li>
+            <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span>&nbsp;@Html.ActionLink("Predmetnik", "Predmeti", "Storitve")</li>
+            <li><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>&nbsp;@Html.ActionLink("Dogodki", "Dogodek", "Storitve")</li>
             }
             else if (User.IsInRole("Ucenec"))
             {
-            <li><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>@Html.ActionLink("Inštrukcije", "Index", "Najemi")</li>
-            <li><span class="badge" style="display: none"></span><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>@Html.ActionLink("Košarica", "Kosarica", "Najemi")</li>
-            <li><span class="glyphicon glyphicon-user" aria-hidden="true"></span>@Html.ActionLink("Profesorji", "Profesorji", "Najemi")</li>
-            <li><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>@Html.ActionLink("Dogodki", "Dogodek", "Najemi")</li>
+            <li><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>&nbsp;@Html.ActionLink("Inštrukcije", "Index", "Najemi")</li>
+            <li><span class="badge" style="display: none"></span><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>&nbsp;@Html.ActionLink("Košarica", "Kosarica", "Najemi")</li>
+            <li><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>&nbsp;@Html.ActionLink("Dogodki", "Dogodek", "Najemi")</li>
             }
         }
     </ul>

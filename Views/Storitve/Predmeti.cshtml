@@ -3,6 +3,7 @@
 @using TPO_Seminar.Models
 @model TPO_Seminar.Models.ServiceCreation
 @{
+    ViewBag.Title = "Predmeti";
     var subjectRoles = new List<SubjectRoles>();
     var model = new UserContext();
 
@@ -19,14 +20,18 @@
     .form-control {
         margin: 0;
     }
+    p {
+        margin: 0;
+        padding: 0;
+    }
 </style>
 
 <div class="table-responsive">
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th>Ime predmeta</th>
-                <th>Cena na uro</th>
+                <th><p class="text-center">Ime predmeta</p></th>
+                <th><p class="text-center">Cena na uro</p></th>
                 <th></th>
             </tr>
         </thead>
@@ -35,10 +40,10 @@
             {
                 <tr>
                     <td>
-                        @item.Subjects.SubjectName
+                        <p class="text-center">@item.Subjects.SubjectName</p>
                     </td>
-                    <td>@item.PricePerHour.ToString(CultureInfo.CurrentCulture)€</td>
-                    <td>
+                    <td><p class="text-center">@item.PricePerHour.ToString(CultureInfo.CurrentCulture)€</p></td>
+                    <td align="center">
                         <button type="button" class="btn btn-default btn-xs" name="deleteRow" value="@item.Id">
                             <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>Izbriši
                                 

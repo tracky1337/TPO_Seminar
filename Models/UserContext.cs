@@ -263,6 +263,20 @@ namespace TPO_Seminar.Models
         public int Rating { get; set; }
     }
 
+    public class Profesor
+    {
+        public Int64 IDrec { get; set; }
+        public int UserProfileID { get; set; }
+        public string Podjetje { get; set; }
+        public string DavcnaStevilka { get; set; }
+        public string Name { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public int CountOfOrders { get; set; }
+        public string AvgOcena { get; set; }
+        public string Subjects { get; set; }
+    }
+
     #region JsonModels
 
     public class ResultDay

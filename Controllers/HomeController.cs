@@ -17,19 +17,6 @@ namespace TPO_Seminar.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your app description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
 
         [HttpPost]
         public ActionResult SendMail(string sender, string message)
@@ -45,6 +32,11 @@ namespace TPO_Seminar.Controllers
                 client.Send("tposeminar@gmail.com", "tposeminar@gmail.com", "Sporočilo iz strani", body);
             }catch { }
             return Content("");
+        }
+
+        public ActionResult Profesorji()
+        {
+            return View();
         }
     }
 }

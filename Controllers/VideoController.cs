@@ -18,14 +18,24 @@ namespace TPO_Seminar.Controllers
         //
         // GET: /Video/
 
-        public ActionResult Host()
+        [HttpPost]
+        public ActionResult Host(int? Id)
         {
-            return View();
+            if (Id.HasValue)
+            {
+                return View(Id);
+            }
+            return View(-1);
         }
 
-        public ActionResult ViewInstruction()
+        [HttpPost]
+        public ActionResult ViewInstruction(int? Id)
         {
-            return View();
+            if (Id.HasValue)
+            {
+                return View(Id);
+            }
+            return View(-1);
         }
 
         [HttpPost]
@@ -33,7 +43,7 @@ namespace TPO_Seminar.Controllers
         {
             using (var entity = new UserContext())
             {
-                var blobElement = new Blobs() {Blob = blob};
+                var blobElement = new Blobs() { Blob = blob };
                 entity.Blobs.Add(blobElement);
                 entity.SaveChanges();
                 return blobElement.Id.ToString();

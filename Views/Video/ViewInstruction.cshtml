@@ -1,5 +1,6 @@
 ﻿@{
-    ViewBag.Title = "Index ";
+    ViewBag.Title = "Inštrukcija";
+    var id = (int) Model;
 }
 <!DOCTYPE html>
 <div class="container">
@@ -7,7 +8,7 @@
         <div id="left" style="float: left;">
             <canvas id="mycanvas" width="600" height="600" style="border: 1px solid #000000;"></canvas>
         </div>
-        <div id="right" style="float: left; margin-left: 30px; width: 400px;">
+        <div id="right" style="float: left; margin-left: 30px; width: 300px;">
             @Html.Partial("ChatPartial")
             <section class="recorder-container">
                 <button id="send" style="visibility: hidden;"></button>
@@ -55,7 +56,7 @@
             var connection = $.hubConnection();
 
             var hubProxy = connection.createHubProxy('HubController');
-
+            connection.qs={ token: @id };
 
 
             hubProxy.on('drawPoint', function (y, x, fill, size) {
@@ -77,17 +78,17 @@
                 var myKeyVals = { blob: base }
                 $.ajax({
                     type: 'POST',
-                    url: "Video/Upload",
+                    url: "../Video/Upload",
                     data: myKeyVals,
                     dataType: "text",
-                    success: function (resultData) { hubProxy.invoke('SendVoiceMessage', resultData); }
+                    success: function (resultData) { hubProxy.invoke('SendVoiceMessage', resultData,@id); }
                 });
             });
 
             $("#btn-chat").click(function () {
                 var message = $("#btn-input").val();
                 if (message.length == 0) return;
-                hubProxy.invoke('SendMessage', message);
+                hubProxy.invoke('SendMessage', message,@id);
                 $("#btn-input").val('');
             });
 

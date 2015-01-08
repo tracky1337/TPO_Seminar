@@ -8,7 +8,7 @@ $(function () {
     var params = {};
     var flashvars = {};
     var attributes = { 'id': RECORDER_APP_ID, 'name': RECORDER_APP_ID };
-    swfobject.embedSWF("recorder.swf", "flashcontent", appWidth, appHeight, "11.0.0", "", flashvars, params, attributes);
+    swfobject.embedSWF("../recorder.swf", "flashcontent", appWidth, appHeight, "11.0.0", "", flashvars, params, attributes);
 
     window.fwr_event_handler = function fwr_event_handler() {
         var name, $controls;

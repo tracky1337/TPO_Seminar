@@ -83,7 +83,7 @@ namespace TPO_Seminar.Controllers
                         .ToList();
 
                 //remove instructors that are busy
-                var busyInstructorHours = model.Orders.Where(el => el.Approved && el.InstructorId == instructorId)
+                var busyInstructorHours = model.Orders.Where(el => el.Approved && el.InstructorId == instructorId && el.OrderDate.Year==dt.Year && el.OrderDate.Month==dt.Month && el.OrderDate.Day==dt.Day)
                     .Select(el => new ResultDay() {hour = el.OrderDate.Hour.ToString()})
                     .Distinct()
                     .ToList();

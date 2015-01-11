@@ -248,6 +248,7 @@
     <Content Include="Content\bootstrap-toggle.min.css" />
     <Content Include="Content\calendar.css" />
     <Content Include="Content\calendar.min.css" />
+    <Content Include="Content\logoico.ico" />
     <Content Include="Content\star-rating.css" />
     <Content Include="Content\star-rating.min.css" />
     <Content Include="Content\themes\base\accordion.css" />

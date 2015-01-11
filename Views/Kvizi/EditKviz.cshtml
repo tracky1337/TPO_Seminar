@@ -9,9 +9,9 @@
     instructorId = ctx.Instruktors.Where(ins => ins.UserProfileId == WebSecurity.CurrentUserId).FirstOrDefault().Id;
 
     int serviceId;
-    serviceId = ctx.Services.Where(ser => ser.InstructorId == instructorId).FirstOrDefault().Id;
+    //serviceId = ctx.Services.Where(ser => ser.InstructorId == instructorId).FirstOrDefault().Id;
 
-    services = ctx.Services.Where(ser => ser.InstructorId == instructorId).ToList();
+    //services = ctx.Services.Where(ser => ser.InstructorId == instructorId).ToList();
 
     Quizzes q = (Quizzes)ViewData["QuizId"];
 

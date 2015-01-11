@@ -111,3 +111,7 @@ C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\obj
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\obj\Debug\TPO_Seminar.csprojResolveAssemblyReference.cache
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\obj\Debug\RdlCompile.cache
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\obj\Debug\RdlCompile.compiled
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.ReportViewer.WebForms.dll
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.ReportViewer.Common.dll
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.ReportViewer.DataVisualization.dll
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.ReportViewer.ProcessingObjectModel.dll

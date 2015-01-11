@@ -22,7 +22,7 @@
         foreach (var subR in subjectRoles)
         {
             var qui = ctx.Quizzes.Where(quiz => quiz.SubjectRolesId == subR.Id).FirstOrDefault();
-            quizzes.Add(qui);
+            if(qui!=null){quizzes.Add(qui);}
             var subject = ctx.Subjects.Where(sub => sub.Id == subR.SubjectId).FirstOrDefault();
             subjects.Add(subject);
         }
@@ -109,7 +109,7 @@
                 subjects.Add(subject);
                 // kvizi naročenih predmetov
                 var quiz = ctx.Quizzes.Where(q => q.SubjectRolesId == subRole.Id).FirstOrDefault();
-                quizzes.Add(quiz);
+                if (qui != null) { quizzes.Add(qui); }
             }
             
             

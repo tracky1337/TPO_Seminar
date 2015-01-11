@@ -30,7 +30,7 @@
         </div>
     </div>
     <div id="control">
-        <button type="button" id="Oddaj" onclick="oddaj()">Zaključi kviz</button>
+        <button type="button" id="Oddaj" class="btn btn-default" onclick="oddaj()">Zaključi kviz</button>
     </div>
 }
 
@@ -94,7 +94,7 @@
                 }
             }
             $("#Oddaj").remove();
-            var btn = $("<button type='button' onclick='end()'>Končaj</button>");
+            var btn = $("<button type='button' onclick='end()' class='btn btn-default'>Končaj</button>");
             $("#control").append(btn);
         }
 

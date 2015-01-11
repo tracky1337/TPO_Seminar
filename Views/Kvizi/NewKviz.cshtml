@@ -62,7 +62,7 @@
                     </tbody>
                 </table>
             </div>
-            <button type='button' class='btn btn-default' id='Q1add' onclick='addAnswer(id)'>Dodaj odgovor</button>
+            <button type='button' class='btn btn-default' id='Q1add' onclick='addAnswer(id)' class='btn btn-default'>Dodaj odgovor</button>
             <div class='table-responsive'>
                 <table class='table table-striped table-bordered' id='Q1answer'>
                     <thead>
@@ -78,18 +78,18 @@
                     <tbody></tbody>
                 </table>
             </div>
-            <button type='button' class='btn btn-default' id='Q1del' onclick='delQ(id)'>Odstrani vprašanje</button>
+            <button type='button' class='btn btn-default' id='Q1del' onclick='delQ(id)' class='btn btn-default'>Odstrani vprašanje</button>
             <br />
             <br />
         </div>
     </div>
     <div id="1">
 
-        <button id='endBtn' type='submit'>Končaj</button>
+        <button id='endBtn' type='submit' class='btn btn-default'>Končaj</button>
 
-        <button id='addBtn' type='button'>Dodaj novo vprašanje</button>
+        <button id='addBtn' type='button' class='btn btn-default'>Dodaj novo vprašanje</button>
 
-        <button id='quitBtn' type='button' onclick="location.href='@Url.Action("Index", "Kvizi")' ;return false;">Izhod</button>
+        <button id='quitBtn' type='button' class='btn btn-default' onclick="location.href='@Url.Action("Index", "Kvizi")' ;return false;">Izhod</button>
     </div>
 }
 

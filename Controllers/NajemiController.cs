@@ -200,34 +200,28 @@ namespace TPO_Seminar.Controllers
             string[] streams;
             byte[] renderBytes;
 
-            string deviceInfo =
-                "<DeviceInfo>" +
-                "   <OutputFormat>PDF</OutputFormat>" +
-                "   <PageWidth>8.5in</PageWidth>" +
-                "   <PageHeight>11in</PageHeight>" +
-                "   <MarginTop>0.5in</MarginTop>" +
-                "   <MarginLeft>1in</MarginLeft>" +
-                "   <MarginRight>1in</MarginRight>" +
-                "   <MarginBottom>0.5in<MarginBottom>" +
-                "</DeviceInfo>";
+            string deviceInfo = @"<DeviceInfo>             
+                 <OutputFormat>PDF</OutputFormat>             
+                 <PageWidth>8.4in</PageWidth>             
+                 <PageHeight>12in</PageHeight>         
+                 <MarginTop>0.25in</MarginTop>         
+                 <MarginLeft>0.45in</MarginLeft>           
+                 <MarginRight>0.45in</MarginRight>      
+                 <MarginBottom>0.25in</MarginBottom></DeviceInfo>";
 
             if (System.IO.File.Exists(path))
             {
                 lr.ReportPath = path;
             }
-            else
-            {
-                return View("Index");
-            }
 
             using (var model = new UserContext())
             {
                 var studentId = model.Students.FirstOrDefault(el => el.UserProfileId == WebSecurity.CurrentUserId);
-                String query = String.Format("SELECT * FROM vw_UpaidOrders --WHERE StudentId = {0}", studentId.Id);
+                String query = String.Format("SELECT * FROM vw_UpaidOrders WHERE StudentId = {0}", studentId.Id);
                 liUnpaidOrders = model.Database.SqlQuery<UnpaidOrders>(query).ToList();
             }
 
-            ReportDataSource rd = new ReportDataSource("DataSet1", liUnpaidOrders);
+            ReportDataSource rd = new ReportDataSource("dsUnpaidOrders", liUnpaidOrders);
             lr.DataSources.Add(rd);
 
             renderBytes = lr.Render(reportType, deviceInfo, out mimeType, out encoding, out fileNameExtension, out streams, out warnings);

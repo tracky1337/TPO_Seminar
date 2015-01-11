@@ -281,7 +281,7 @@ namespace TPO_Seminar.Models
 
     public class UnpaidOrders
     {
-        public int Id { get; set; }
+        public int ID { get; set; }
         public int StudentId { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
@@ -289,7 +289,7 @@ namespace TPO_Seminar.Models
         public string DavcnaStevilka { get; set; }
         public string SubjectName { get; set; }
         public DateTime OrderDate { get; set; }
-        public decimal PricePerHour { get; set; }
+        public Decimal PricePerHour { get; set; }
     }
 
     [Table("Quizzes")]

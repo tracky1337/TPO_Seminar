@@ -223,6 +223,11 @@
     <Compile Include="Controllers\UrnikController.cs" />
     <Compile Include="Controllers\VideoController.cs" />
     <Compile Include="Controllers\WebApiController.cs" />
+    <Compile Include="dbReportingDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dbReportingDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -305,6 +310,17 @@
     <Content Include="Scripts\components\bootstrap3\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\components\bootstrap3\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Scripts\components\bootstrap3\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="dbReportingDataSet.xsc">
+      <DependentUpon>dbReportingDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="dbReportingDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dbReportingDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="dbReportingDataSet.xss">
+      <DependentUpon>dbReportingDataSet.xsd</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\calendar.js" />
     <Content Include="Scripts\calendar.min.js" />
@@ -416,7 +432,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Filters\" />
-    <Folder Include="Reports\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -425,6 +440,7 @@
     <EmbeddedResource Include="Migrations\201412140918347_InitialCreate.resx">
       <DependentUpon>201412140918347_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ReportUnpaidOrders.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

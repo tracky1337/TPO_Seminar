@@ -1,5 +1,13 @@
 ﻿@using TPO_Seminar.Models
 @model TPO_Seminar.Models.ServiceCreation
+
+<script src="~/Scripts/components/bootstrap3/js/bootstrap.min.js"></script>
+<style>
+        p {
+        padding: 0;
+        margin: 0;
+    }
+</style>
 @{
     ViewBag.Title = "Kvizi";
     var quizzes = new List<Quizzes>();
@@ -22,12 +30,14 @@
         foreach (var subR in subjectRoles)
         {
             var qui = ctx.Quizzes.Where(quiz => quiz.SubjectRolesId == subR.Id).FirstOrDefault();
-            if(qui!=null){quizzes.Add(qui);}
+            if (qui != null) { quizzes.Add(qui); }
             var subject = ctx.Subjects.Where(sub => sub.Id == subR.SubjectId).FirstOrDefault();
             subjects.Add(subject);
         }
 
-        <div class="table-responsive">
+        if (quizzes.Any())
+        {
+                    <div class="table-responsive">
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
@@ -39,8 +49,8 @@
                 </thead>
                 <tbody>
                     @if (quizzes.Count > 0)
-                    { 
-                        foreach (var quiz in quizzes)
+                    {
+                        foreach (var quiz in quizzes.Distinct())
                         {
                             var s = 0;
                             <tr>
@@ -51,11 +61,11 @@
                                 <td>@subjects.ElementAt(s).SubjectName</td>
                                 <td>
                                     <button type="button" class="btn btn-default btn-xs" name="deleteQuiz" value="@quiz.Id">
-                                        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>Izbriši
+                                        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>&nbsp;Izbriši
 
                                     </button>
                                     <button type="button" class="btn btn-default btn-xs" name="editQuiz" value="@quiz.Id">
-                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>Uredi
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Uredi
                                     </button>
                                 </td>
                             </tr>
@@ -66,8 +76,10 @@
             </table>
         </div>
 
-        using (Html.BeginForm())
-        {
+
+        }
+                            using (Html.BeginForm())
+                    {
             <form class="form-horizontal" role="form">
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">
@@ -88,7 +100,8 @@
                     </div>
                 </div>
             </form>
-        }
+                    }
+
     }
     else if (User.IsInRole("Ucenec"))
     {
@@ -97,13 +110,14 @@
 
         // vsa potrjena naročila ucenca
         orders = ctx.Orders.Where(ord => ord.StudentId == ucenecId && ord.Approved == true && ord.IsPaid == false).ToList();
-        
+
         foreach (var order in orders)
         {
             // vloga predmeta naročenega inštruktorja
             var subRole = ctx.SubjectRoles.Where(subR => subR.SubjectId == order.SubjectId && subR.InstructorId == order.InstructorId).FirstOrDefault();
 
-            if (subRole != null) { 
+            if (subRole != null)
+            {
                 // predmeti naročenega inštruktorja
                 var subject = ctx.Subjects.Where(sub => sub.Id == subRole.SubjectId).FirstOrDefault();
                 subjects.Add(subject);
@@ -111,37 +125,41 @@
                 var quiz = ctx.Quizzes.Where(q => q.SubjectRolesId == subRole.Id).FirstOrDefault();
                 if (quiz != null) { quizzes.Add(quiz); }
             }
-            
-            
+
+
         }
 
-
-
-        <div class="table-responsive">
+        if (!quizzes.Any())
+        {
+            <p class="text-center">Trenutno ni nobenega kviza na voljo</p>
+        }
+        else
+        {
+                    <div class="table-responsive">
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Id kviza</th>
-                        <th>Ime Kviza</th>
-                        <th>Ime predmeta</th>
+                        <th><p class="text-center">Id kviza</p></th>
+                        <th><p class="text-center">Ime Kviza</p></th>
+                        <th><p class="text-center">Ime predmeta</p></th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (quizzes.Count > 0)
                     {
-                        foreach (var quiz in quizzes)
+                        foreach (var quiz in quizzes.Distinct())
                         {
                             var s = 0;
                             <tr>
-                                <td>
+                                <td align="center">
                                     @quiz.Id
                                 </td>
-                                <td>@quiz.QuizName</td>
-                                <td>@subjects.ElementAt(s).SubjectName</td>
-                                <td>
+                                <td align="center">@quiz.QuizName</td>
+                                <td align="center">@subjects.ElementAt(s).SubjectName</td>
+                                <td align="center">
                                     <button type="button" class="btn btn-default btn-xs" name="solveQuiz" value="@quiz.Id">
-                                        <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>Poskusi kviz
+                                        <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>&nbsp;Poskusi kviz
                                     </button>
                                 </td>
                             </tr>
@@ -151,9 +169,16 @@
                 </tbody>
             </table>
         </div>
+        }
+
+
     }
 
+
+
 }
+
+
 
 @section scripts {
     <script>

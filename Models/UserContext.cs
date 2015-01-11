@@ -277,6 +277,19 @@ namespace TPO_Seminar.Models
         public string Subjects { get; set; }
     }
 
+    public class UnpaidOrders
+    {
+        public int Id { get; set; }
+        public int StudentId { get; set; }
+        public string Name { get; set; }
+        public string LastName { get; set; }
+        public string Podjetje { get; set; }
+        public string DavcnaStevilka { get; set; }
+        public string SubjectName { get; set; }
+        public DateTime OrderDate { get; set; }
+        public decimal PricePerHour { get; set; }
+    }
+
     #region JsonModels
 
     public class ResultDay

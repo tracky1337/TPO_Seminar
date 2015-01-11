@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Reporting.WebForms;
 using Newtonsoft.Json;
 using TPO_Seminar.Models;
 using WebMatrix.WebData;
@@ -184,6 +185,54 @@ namespace TPO_Seminar.Controllers
                 }
             }
             return Content("");
+        }
+
+        public ActionResult UnpaidOrders()
+        {
+            LocalReport lr = new LocalReport();
+            String path = System.IO.Path.Combine(Server.MapPath("~/Reports"), "ReportUnpaidOrders.rdlc");
+            List<UnpaidOrders> liUnpaidOrders = new List<UnpaidOrders>();
+            string reportType = "PDF";
+            string mimeType;
+            string encoding;
+            string fileNameExtension;
+            Warning[] warnings;
+            string[] streams;
+            byte[] renderBytes;
+
+            string deviceInfo =
+                "<DeviceInfo>" +
+                "   <OutputFormat>PDF</OutputFormat>" +
+                "   <PageWidth>8.5in</PageWidth>" +
+                "   <PageHeight>11in</PageHeight>" +
+                "   <MarginTop>0.5in</MarginTop>" +
+                "   <MarginLeft>1in</MarginLeft>" +
+                "   <MarginRight>1in</MarginRight>" +
+                "   <MarginBottom>0.5in<MarginBottom>" +
+                "</DeviceInfo>";
+
+            if (System.IO.File.Exists(path))
+            {
+                lr.ReportPath = path;
+            }
+            else
+            {
+                return View("Index");
+            }
+
+            using (var model = new UserContext())
+            {
+                var studentId = model.Students.FirstOrDefault(el => el.UserProfileId == WebSecurity.CurrentUserId);
+                String query = String.Format("SELECT * FROM vw_UpaidOrders --WHERE StudentId = {0}", studentId.Id);
+                liUnpaidOrders = model.Database.SqlQuery<UnpaidOrders>(query).ToList();
+            }
+
+            ReportDataSource rd = new ReportDataSource("DataSet1", liUnpaidOrders);
+            lr.DataSources.Add(rd);
+
+            renderBytes = lr.Render(reportType, deviceInfo, out mimeType, out encoding, out fileNameExtension, out streams, out warnings);
+
+            return File(renderBytes, mimeType);
         }
 
 

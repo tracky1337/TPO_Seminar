@@ -94,7 +94,6 @@ C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.Owin.xml
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.Owin.Host.SystemWeb.xml
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Microsoft.Owin.Security.xml
-C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\obj\Debug\TPO_Seminar.csprojResolveAssemblyReference.cache
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\TPO_Seminar.dll.config
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\EntityFramework.SqlServer.dll
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\System.Net.Http.Extensions.dll

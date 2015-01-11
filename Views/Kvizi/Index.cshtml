@@ -109,7 +109,7 @@
                 subjects.Add(subject);
                 // kvizi naročenih predmetov
                 var quiz = ctx.Quizzes.Where(q => q.SubjectRolesId == subRole.Id).FirstOrDefault();
-                if (qui != null) { quizzes.Add(qui); }
+                if (quiz != null) { quizzes.Add(quiz); }
             }
             
             

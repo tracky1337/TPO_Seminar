@@ -108,3 +108,4 @@ C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Org.Mentalis.Security.Cryptography.xml
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\bin\Mono.Math.xml
 C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\obj\Debug\TPO_Seminar.csproj.App.config
+C:\Users\Grega\Documents\Visual Studio 2012\Projects\TPO_Seminar\TPO_Seminar\obj\Debug\TPO_Seminar.csprojResolveAssemblyReference.cache

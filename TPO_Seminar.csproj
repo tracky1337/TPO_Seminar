@@ -217,6 +217,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KviziController.cs" />
     <Compile Include="Controllers\NajemiController.cs" />
     <Compile Include="Controllers\StoritveController.cs" />
     <Compile Include="Controllers\UrnikController.cs" />
@@ -407,6 +408,10 @@
     <Content Include="Views\Storitve\Dogodek.cshtml" />
     <Content Include="Views\Home\Profesorji.cshtml" />
     <Content Include="Views\Najemi\UnpaidOrders.cshtml" />
+    <Content Include="Views\Kvizi\EditKviz.cshtml" />
+    <Content Include="Views\Kvizi\Index.cshtml" />
+    <Content Include="Views\Kvizi\NewKviz.cshtml" />
+    <Content Include="Views\Kvizi\SolveKviz.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

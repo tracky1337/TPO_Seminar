@@ -24,7 +24,7 @@ namespace TPO_Seminar.Models
         public DbSet<SubjectRoles> SubjectRoles { get; set; }
         public DbSet<Orders> Orders { get; set; }
         public DbSet<Ratings> Ratings { get; set; }
-
+        public DbSet<Quizzes> Quizzes { get; set; }
 
     }
 
@@ -240,7 +240,9 @@ namespace TPO_Seminar.Models
 
         public DateTime OrderDate { get; set; }
         public bool Approved { get; set; }
+        public bool IsPaid { get; set; }
     }
+
 
     [Table("Ratings")]
     public class Ratings
@@ -288,6 +290,22 @@ namespace TPO_Seminar.Models
         public string SubjectName { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal PricePerHour { get; set; }
+    }
+
+    [Table("Quizzes")]
+    public class Quizzes
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [ForeignKey("SubjectRoles")]
+        public int SubjectRolesId { get; set; }
+
+        public virtual SubjectRoles SubjectRoles { get; set; }
+
+        public string QuizName { get; set; }
+
+        public string QuizData { get; set; }
     }
 
     #region JsonModels

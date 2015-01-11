@@ -1,0 +1,131 @@
+﻿@using TPO_Seminar.Models
+@model TPO_Seminar.Models.ServiceCreation
+@{
+    ViewBag.Title = "Kvizi";
+    int ucenecId;
+    var ctx = new UserContext();
+
+    ucenecId = ctx.Students.Where(stu => stu.UserProfileId == WebSecurity.CurrentUserId).FirstOrDefault().Id;
+
+    var db = new UserContext();
+
+    Quizzes q = (Quizzes)ViewData["QuizId"];
+
+    <div id="all">
+        <div id="Q1">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered" id='Q1answer'>
+                    <thead>
+                        <tr>
+                            <th id="besediloQ1"></th>
+                        </tr>
+                        <tr>
+                            <th id="navodiloQ1"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="control">
+        <button type="button" id="Oddaj" onclick="oddaj()">Zaključi kviz</button>
+    </div>
+}
+
+@section scripts{
+    <script>
+        var form = $("#Q1").html();
+        var i = 1;
+        var answer = 1;
+        var dataObject;
+
+        var dataJson = "@Server.UrlDecode(q.QuizData)".replace(/&quot;/g, '"');
+
+        function addAnswerCheck(id) {
+            $("#" + id.substring(0, 2) + "answer > tbody:last").append(
+                "<tr id='Q" + id.substring(1, 2) + "answer" + answer.toString() + "'>" +
+                "<td>" +
+                "<input type='checkbox' id='Q" + id.substring(1, 2) + "answerResult" + answer.toString() + "'/>" +
+                "<label for='Q" + id.substring(1, 2) + "answerResult" + answer.toString() + "'></label>" +
+                "</td>" +
+                "</tr>");
+            answer++;
+        }
+
+        function addAnswerRadio(id) {
+            $("#" + id.substring(0, 2) + "answer > tbody:last").append(
+                "<tr id='Q" + id.substring(1, 2) + "answer" + answer.toString() + "'>" +
+                "<td>" +
+                "<input type='radio' name='Q" + id.substring(1, 2) + "answer' id='Q" + id.substring(1, 2) + "answerResult" + answer.toString() + "'/>" +
+                "<label for='Q" + id.substring(1, 2) + "answerResult" + answer.toString() + "'></label>" +
+                "</td>" +
+                "</tr>");
+            answer++;
+        }
+
+        function addQuestion() {
+            var tmp = i;
+            tmp++;
+            var n = form.replace(/Q1/g, "Q" + tmp.toString());
+            n = "<div id='Q" + tmp.toString() + "'>" + n + "</div>";
+            $("#all").append(n);
+            i = tmp;
+        }
+
+        function oddaj() {
+
+            $('html, body').animate({
+                scrollTop: $("#all").offset().top
+            }, 500);
+
+            var a = 1;
+            for (var q = 1; q <= i; q++) {
+                var obj = $("#Q" + q.toString() + "answerResult" + a.toString());
+                while (obj.length > 0) {
+                    if (obj.attr("value") == "1")
+                        obj.parent().css("background-color", "LightGreen");
+                    else
+                        obj.parent().css("background-color", "LightCoral");
+
+                    a++;
+                    obj = $("#Q" + q.toString() + "answerResult" + a.toString());
+                }
+            }
+            $("#Oddaj").remove();
+            var btn = $("<button type='button' onclick='end()'>Končaj</button>");
+            $("#control").append(btn);
+        }
+
+        function end() {
+            window.location = "Kvizi";
+        }
+
+
+        $(document).ready(function () {
+            var data = jQuery.parseJSON(dataJson);
+            var answerM = 1;
+            var l = data.text.length - 1;
+            for (var d = 0; d < data.text.length; d++) {
+                $("#besediloQ" + i.toString()).text(data.text[d]);
+                if (data.option[d] == "0")
+                    $("#navodiloQ" + i.toString()).text("Izberi en odgovor");
+                else
+                    $("#navodiloQ" + i.toString()).text("Izberi enega ali več odgovorov");
+                for (var a = 0; a < data.answers[d].length; a++) {
+                    if (data.option[d] == "0")
+                        addAnswerRadio("Q" + i.toString());
+                    else
+                        addAnswerCheck("Q" + i.toString());
+                    var an = $("#Q" + (i).toString() + "answerResult" + answerM.toString());
+                    an.siblings("label").html(data.answers[d][a].text);
+                    an.attr("value", data.answers[d][a].correct);
+                    answerM++;
+                }
+                if (d < l)
+                    addQuestion();
+            }
+        });
+    </script>
+}

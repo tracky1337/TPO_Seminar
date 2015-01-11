@@ -1,0 +1,293 @@
+﻿@using TPO_Seminar.Models
+@model TPO_Seminar.Models.Subjects
+@{
+    ViewBag.Title = "Kvizi";
+    var services = new List<Services>();
+    int instructorId;
+    var ctx = new UserContext();
+
+    instructorId = ctx.Instruktors.Where(ins => ins.UserProfileId == WebSecurity.CurrentUserId).FirstOrDefault().Id;
+
+    SubjectRoles subR = (SubjectRoles)ViewData["SubjectRolesId"];
+    
+    <div class='table-responsive'>
+        <table class='table table-striped table-bordered'>
+            <thead>
+                <tr>
+                    <th>Ime kviza</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input style="width:100%; height:100%" type="text" id="QuizName" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="all">
+        <div id='Q1'>
+            <h2>Vprašanje</h2>
+            <div class='table-responsive'>
+                <table class='table table-striped table-bordered'>
+                    <thead>
+                        <tr>
+                            <th>Besedilo naloge</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><textarea style="width:100%; height:100%" rows='6' cols='200' id='Q1text'></textarea></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class='table-responsive'>
+                <table class='table table-striped table-bordered'>
+                    <thead>
+                        <tr>
+                            <th colspan='2'>Število možnih odgovorov</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type='radio' id="Q1radio1" name='Q1odgovor' value='0'>Izberi en odgovor (min. 2 možna odgovora)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type='radio' id="Q1radio2" name='Q1odgovor' value='1'>Izberi enega ali več odgovorov (min. 3 možni odgovori)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button type='button' class='btn btn-default' id='Q1add' onclick='addAnswer(id)'>Dodaj odgovor</button>
+            <div class='table-responsive'>
+                <table class='table table-striped table-bordered' id='Q1answer'>
+                    <thead>
+                        <tr>
+                            <th colspan='3'>Odgovori</th>
+                        </tr>
+                        <tr>
+                            <th>Besedilo odgovora</th>
+                            <th>Pravilen odgovor</th>
+                            <th>Odstrani odgovor</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <button type='button' class='btn btn-default' id='Q1del' onclick='delQ(id)'>Odstrani vprašanje</button>
+            <br />
+            <br />
+        </div>
+    </div>
+    <div id="1">
+
+        <button id='endBtn' type='submit'>Končaj</button>
+
+        <button id='addBtn' type='button'>Dodaj novo vprašanje</button>
+
+        <button id='quitBtn' type='button' onclick="location.href='@Url.Action("Index", "Kvizi")' ;return false;">Izhod</button>
+    </div>
+}
+
+@section scripts{
+    <script>
+        var form = $("#Q1").html();
+        var i = 1;
+        var answer = 1;
+        var dataObject;
+
+        function addAnswer(id) {
+            $("#" + id.substring(0, 2) + "answer > tbody:last").append(
+                "<tr id='Q" + id.substring(1, 2) + "answer" + answer.toString() + "'>" +
+                "<td align='center'>" +
+                "<input style='width:100%' type='text' id='Q" + id.substring(1, 2) + "answerText" + answer.toString() + "'/>" +
+                "</td>" +
+                "<td align='center'>" +
+                "<input style='width:100%;' type='checkbox' id='Q" + id.substring(1, 2) + "answerCorrect" + answer.toString() + "'/>Pravilen odgovor" +
+                "</td>" +
+                "<td align='center'>" +
+                "<button style='width:100%' type='button' class='btn btn-default'" +
+                "id='Q" + id.substring(1, 2) + "answerBtn" + answer.toString() + "'" +
+                "onclick='this.parentNode.parentNode.remove()'>Odstrani odgovor</button>" +
+                "</td>" +
+                "</tr>");
+            answer++;
+        }
+
+        function delQ(id) {
+            $("#" + id.substring(0, 2)).remove();
+        }
+
+        function checkDiv(last) {
+            dataObject = new Object();
+            dataObject.text = [];
+            dataObject.option = [];
+            dataObject.answers = [];
+            for (var j = 1; j <= i; j++) {
+                var textarea = $("#Q" + j.toString() + "text");
+                if (textarea.length > 0) {
+                    if (!$.trim(textarea.val())) {
+                        alert("Vprašanje mora vsebovati besedilo.");
+                        $('html, body').animate({
+                            scrollTop: textarea.offset().top
+                        }, 500);
+                        textarea.focus();
+                        return false;
+                    }
+                    if (last)
+                        dataObject.text.push(textarea.val());
+                    if (!$("input[name=Q" + j.toString() + "odgovor]").is(":checked")) {
+                        alert("Izbrati je potrebno možno število odgovorov.");
+                        $('html, body').animate({
+                            scrollTop: $("input[name=Q" + j.toString() + "odgovor]").offset().top
+                        }, 500);
+                        return false;
+                    }
+                    if (last)
+                        dataObject.option.push($("input[name=Q" + j.toString() + "odgovor]:checked").val());
+                    var addBtn = $("#Q" + j.toString() + "add");
+                    var tbody = $("#Q" + j.toString() + "answer tbody");
+                    if ($("input[name=Q" + j.toString() + "odgovor]:checked").val() == 0) {
+                        if (tbody.children().length < 2) {
+                            alert("Vprašanje mora vsebovati vsaj 2 odgovora.");
+                            $('html, body').animate({
+                                scrollTop: addBtn.offset().top
+                            }, 500);
+                            return false;
+                        }
+                        var correct = 0;
+                        if (last)
+                            var answers = [];
+                        for (var k = 1; k < answer; k++) {
+                            var answerObject = new Object();
+                            var answerText = $("#Q" + j.toString() + "answerText" + k.toString());
+                            if (answerText.length > 0) {
+                                if (!$.trim(answerText.val())) {
+                                    alert("Odgovor mora vsebovati besedilo.");
+                                    $('html, body').animate({
+                                        scrollTop: answerText.offset().top
+                                    }, 500);
+                                    answerText.focus();
+                                    return false;
+                                }
+                                answerObject.text = answerText.val();
+                                var answerCorrect = $("#Q" + j.toString() + "answerCorrect" + k.toString());
+                                if (answerCorrect.is(":checked")) {
+                                    correct++;
+                                    answerObject.correct = 1;
+                                }
+                                else
+                                    answerObject.correct = 0;
+                                if (last)
+                                    answers.push(answerObject);
+                            }
+                        }
+                        if (correct != 1) {
+                            alert("Natanko en odgovor mora biti označen kot pravilen.");
+                            $('html, body').animate({
+                                scrollTop: tbody.offset().top
+                            }, 500);
+                            return false;
+                        }
+                        if (last)
+                            dataObject.answers.push(answers);
+                    }
+                    else {
+                        if (tbody.children().length < 3) {
+                            alert("Vprašanje mora vsebovati vsaj 3 odgovore.");
+                            $('html, body').animate({
+                                scrollTop: addBtn.offset().top
+                            }, 500);
+                            return false;
+                        }
+                        var correct = 0;
+                        if (last)
+                            var answers = [];
+                        var c = 0;
+                        for (var k = 1; k < answer; k++) {
+                            var answerObject = new Object();
+                            var answerText = $("#Q" + j.toString() + "answerText" + k.toString());
+                            if (answerText.length > 0) {
+                                if (!$.trim(answerText.val())) {
+                                    alert("Odgovor mora vsebovati besedilo.");
+                                    $('html, body').animate({
+                                        scrollTop: answerText.offset().top
+                                    }, 500);
+                                    answerText.focus();
+                                    return false;
+                                }
+                                answerObject.text = answerText.val();
+                                var answerCorrect = $("#Q" + j.toString() + "answerCorrect" + k.toString());
+                                if (answerCorrect.is(":checked")) {
+                                    correct++;
+                                    answerObject.correct = 1;
+                                }
+                                else
+                                    answerObject.correct = 0;
+                                if (last)
+                                    answers.push(answerObject);
+                                c++;
+                            }
+                        }
+                        if (correct == 0 || correct == c) {
+                            alert("Ne vsi in vsaj en odgovor mora biti označen kot pravilen.");
+                            $('html, body').animate({
+                                scrollTop: tbody.offset().top
+                            }, 500);
+                            return false;
+                        }
+                        if (last)
+                            dataObject.answers.push(answers);
+                    }
+                }
+            }
+            return true;
+        }
+
+        $(document).ready(function () {
+
+
+            $("#endBtn").click(function () {
+                if (checkDiv(true)) {
+                    var quizName = $("#QuizName");
+                    if (!$.trim(quizName.val())) {
+                        alert("Kviz mora biti poimenovan.");
+                        $('html, body').animate({
+                            scrollTop: quizName.offset().top
+                        }, 500);
+                        quizName.focus();
+                        return;
+                    }
+
+                    var quizData = JSON.stringify(dataObject);
+                    var formData = { SubjectRolesId: "@subR.Id", QuizName: quizName.val(), QuizData: quizData };
+                    $.ajax({
+                        url: "/Kvizi/CreateQuiz",
+                        type: "POST",
+                        data: formData,
+                        success: function (data) {
+                            $("body").html(data);
+                        }
+                    });
+                }
+            });
+
+
+            $("#addBtn").click(function () {
+                //preveri textarea, checkbox in table
+                if (checkDiv(false)) {
+                    var tmp = i;
+                    tmp++;
+                    var n = form.replace(/Q1/g, "Q" + tmp.toString());
+                    n = "<div id='Q" + tmp.toString() + "'>" + n + "</div>";
+                    $("#all").append(n);
+                    i = tmp;
+                }
+            });
+        });
+    </script>
+}

@@ -6,8 +6,8 @@
     var context = new UserContext();
     var studentId = Model;
     var currDate = DateTime.Now.AddMinutes(-10);
-    var previousEvents = context.Orders.Where(el => el.Approved && el.StudentId == studentId && el.OrderDate <= currDate).Select(el => new { ime = context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().Name + " " + context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().LastName, predmet = el.Subjects.SubjectName, datumizvajanja = el.OrderDate, id = el.Id }).ToList().Select(el => new { ime = el.ime, predmet = el.predmet, datumizvajanja = el.datumizvajanja.ToString("dd.MM.yyyy"), id = el.id, ura = el.datumizvajanja.Hour });
-    var upcomingEvents = context.Orders.Where(el => el.Approved && el.StudentId == studentId && el.OrderDate > currDate).Select(el => new { ime = context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().Name + " " + context.UserDatas.Where(y => y.UserProfileId == el.Students.UserProfileId).FirstOrDefault().LastName, predmet = el.Subjects.SubjectName, datumizvajanja = el.OrderDate, id = el.Id }).ToList().Select(el => new { ime = el.ime, predmet = el.predmet, datumizvajanja = el.datumizvajanja.ToString("dd.MM.yyyy"), id = el.id, ura = el.datumizvajanja.Hour });
+    var previousEvents = context.Orders.Where(el => el.Approved && el.StudentId == studentId && el.OrderDate <= currDate).Select(el => new { ime = context.UserDatas.Where(y => y.UserProfileId == el.Instruktors.UserProfileId).FirstOrDefault().Name + " " + context.UserDatas.Where(y => y.UserProfileId == el.Instruktors.UserProfileId).FirstOrDefault().LastName, predmet = el.Subjects.SubjectName, datumizvajanja = el.OrderDate, id = el.Id }).ToList().Select(el => new { ime = el.ime, predmet = el.predmet, datumizvajanja = el.datumizvajanja.ToString("dd.MM.yyyy"), id = el.id, ura = el.datumizvajanja.Hour });
+    var upcomingEvents = context.Orders.Where(el => el.Approved && el.StudentId == studentId && el.OrderDate > currDate).Select(el => new { ime = context.UserDatas.Where(y => y.UserProfileId == el.Instruktors.UserProfileId).FirstOrDefault().Name + " " + context.UserDatas.Where(y => y.UserProfileId == el.Instruktors.UserProfileId).FirstOrDefault().LastName, predmet = el.Subjects.SubjectName, datumizvajanja = el.OrderDate, id = el.Id }).ToList().Select(el => new { ime = el.ime, predmet = el.predmet, datumizvajanja = el.datumizvajanja.ToString("dd.MM.yyyy"), id = el.id, ura = el.datumizvajanja.Hour });
     ViewBag.Title = "Dogodek";
 }
 
@@ -45,7 +45,7 @@
                     <thead>
                         <tr>
                             <th>
-                                <p class="text-center">Ime študenta</p>
+                                <p class="text-center">Ime inštruktorja</p>
                             </th>
                             <th>
                                 <p class="text-center">Predmet</p>
@@ -108,7 +108,7 @@
                     <thead>
                         <tr>
                             <th>
-                                <p class="text-center">Ime študenta</p>
+                                <p class="text-center">Ime inštruktorja</p>
                             </th>
                             <th>
                                 <p class="text-center">Predmet</p>

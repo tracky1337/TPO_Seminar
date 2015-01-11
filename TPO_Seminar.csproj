@@ -285,6 +285,7 @@
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Content\VideoStyle.css" />
+    <Content Include="favicon.ico" />
     <Content Include="Scripts\components\bootstrap2\css\bootstrap-responsive.css" />
     <Content Include="Scripts\components\bootstrap2\css\bootstrap.css" />
     <Content Include="Scripts\components\bootstrap2\img\glyphicons-halflings-white.png" />
@@ -303,7 +304,6 @@
     <Content Include="tmpl\week.html" />
     <Content Include="tmpl\year-month.html" />
     <Content Include="tmpl\year.html" />
-    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="recorder.swf" />
     <Content Include="Scripts\basic.js" />
